@@ -15,6 +15,6 @@ public class Entity {
     public boolean collisionon = false;
 
     public boolean isgrounded = false;
-    public int realjumpspeed;
+    public int solidAreaDefaultX,solidAreaDefaultY;
 
 }

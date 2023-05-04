@@ -15,7 +15,8 @@ public class Player extends Entity{
     KeyHandler keyH;
     public final int screenY;
     public final int screenX;
-    int y;
+    int hasKey = 0;
+
 
 
 
@@ -23,7 +24,7 @@ public int realjumpspeed;
     public double jumpspeed;
     double gravityspeed;
 
-    public boolean jump;
+
 
     public Player(GamePanel gp,KeyHandler keyH){
         this.gp = gp;
@@ -33,6 +34,8 @@ public int realjumpspeed;
         solidArea = new Rectangle();
         solidArea.x = 0;
         solidArea.y = 0;
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
         solidArea.width = 38;
         solidArea.height = 38;
         setDefaultValues();
@@ -59,8 +62,10 @@ public void getPlayerImage(){
         }
 }
 public void update() {
+        int objIndex = gp.cChecker.checkObject(this,true);
+    pickUp(objIndex);
 gp.cChecker.checkTile(this);
-System.out.println(jumpspeed);
+
  if (isgrounded == false){
      jumpspeed = jumpspeed - gravityspeed;
     gravityspeed = gravityspeed + 0.01;
@@ -78,7 +83,6 @@ else {
     else {jumpspeed = 0;}
 }
 
-    System.out.println(collisionon);
 
     if (keyH.leftPressed || keyH.rightPressed || keyH.upPressed || keyH.downPressed) {
         if (keyH.upPressed) {
@@ -105,6 +109,8 @@ else {
         }
         collisionon =false;
         gp.cChecker.checkTile(this);
+        objIndex = gp.cChecker.checkObject(this,true);
+        pickUp(objIndex);
         if (collisionon == false){
             switch (direction){
                 case"up":
@@ -124,6 +130,22 @@ else {
     }
 
 
+}
+public void pickUp(int index){
+     if (index!=999)  {
+         String objectName = gp.obj[index].name;
+
+         switch (objectName) {
+             case "Key":
+                 gp.obj[index] = null;
+                 break;
+             case "Chest":
+                 if (hasKey > 0){
+                     hasKey --;
+                 }
+                 break;
+         }
+     }
 }
 public void draw(Graphics2D g2){
     BufferedImage image = null;
