@@ -49,7 +49,7 @@ public class UI {
     }
     public void drawPlayerLife(Graphics2D g2){
         int x = gp.tileSize/2;
-        int y = gp.tileSize/2;
+        int y = gp.screenHeight-2*gp.tileSize;
         int i = 0;
         while (i<gp.player.maxLife/2){
             g2.drawImage(heartblank,x,y,gp.tileSize,gp.tileSize,null);
@@ -57,7 +57,7 @@ public class UI {
             x += gp.tileSize;
         }
          x = gp.tileSize/2;
-         y = gp.tileSize/2;
+         y = gp.screenHeight-2*gp.tileSize;
          i = 0;
         while (i<gp.player.life){
             g2.drawImage(hearthalf,x,y,gp.tileSize,gp.tileSize,null);

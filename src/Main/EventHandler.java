@@ -19,9 +19,11 @@ public class EventHandler {
         eventRecDefaultY = eventRec.y;
     }
     public void checkEvent(){
-        if (hit(6,8,"any")==true){damageFireLake();}
+        if (hit(95,7,"any")==true){damageFireLake();}
         else {damage = 1;}
-        if (hit(16,10,"any")==true){teleport();}
+        if (hit(94,7,"any")==true){damageFireLake();}
+        else {damage = 1;}
+        if (hit(100,7,"any")==true){teleport();}
 
     }
     public boolean hit(int eventCol,int eventRow, String reqDirection){
