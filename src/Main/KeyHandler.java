@@ -6,7 +6,7 @@ import java.awt.event.KeyListener;
 public class KeyHandler implements KeyListener {
     public boolean upPressed, downPressed, leftPressed, rightPressed;
     public  boolean jump = false;
-    public int jumpspeed2;
+
 
      GamePanel gp;
      KeyHandler(GamePanel gp){

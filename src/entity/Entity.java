@@ -5,7 +5,6 @@ import java.awt.image.BufferedImage;
 
 public class Entity {
     public int worldX,worldY;
-    public int y;
     public int speed;
     public BufferedImage left1,left2,right1,right2;
     public String direction ;
@@ -16,5 +15,8 @@ public class Entity {
 
     public boolean isgrounded = false;
     public int solidAreaDefaultX,solidAreaDefaultY;
+
+    public int maxLife;
+    public int life;
 
 }

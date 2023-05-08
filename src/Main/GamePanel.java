@@ -30,6 +30,8 @@ public class GamePanel extends JPanel implements Runnable{
     public CollisionChecker cChecker =new CollisionChecker(this);
     public AssetSetter aSet = new AssetSetter(this);
     public LevelBar levelbar = new LevelBar(this);
+    public UI ui = new UI(this);
+    public EventHandler eHandler = new EventHandler(this);
 
     public Player player = new Player(this,keyH);
     public SuperObject obj[] = new SuperObject[10];
@@ -107,6 +109,7 @@ public class GamePanel extends JPanel implements Runnable{
         }
         player.draw(g2);
         levelbar.draw(g2);
+        ui.draw(g2);
 
         g2.dispose();
 

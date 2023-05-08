@@ -14,6 +14,9 @@ public class LevelBar {
     }
     public void update(){
 rectanglex = gp.player.worldX / 48;
+if (rectanglex >= 320){
+    gp.ui.gameFinished = true;
+}
     }
     public void draw(Graphics2D g2){
         g2.drawRect(gp.screenWidth/2 - 160,50,320,20);

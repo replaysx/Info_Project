@@ -15,7 +15,7 @@ public class Player extends Entity{
     KeyHandler keyH;
     public final int screenY;
     public final int screenX;
-    int hasKey = 0;
+   public int hasKey = 0;
 
 
 
@@ -48,6 +48,8 @@ public void setDefaultValues(){
         direction = "right";
         gravityspeed = 0.5;
         jumpspeed = 0;
+        maxLife = 6;
+        life = maxLife;
 
 }
 public void getPlayerImage(){
@@ -111,6 +113,7 @@ else {
         gp.cChecker.checkTile(this);
         objIndex = gp.cChecker.checkObject(this,true);
         pickUp(objIndex);
+        gp.eHandler.checkEvent();
         if (collisionon == false){
             switch (direction){
                 case"up":
@@ -138,6 +141,7 @@ public void pickUp(int index){
          switch (objectName) {
              case "Key":
                  gp.obj[index] = null;
+                 hasKey ++;
                  break;
              case "Chest":
                  if (hasKey > 0){
