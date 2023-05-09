@@ -8,6 +8,7 @@ public class EventHandler {
     int eventRecDefaultX,eventRecDefaultY;
     int damage = 1;
 
+
     public EventHandler(GamePanel gp){
         this.gp = gp;
         eventRec = new Rectangle();
@@ -19,7 +20,7 @@ public class EventHandler {
         eventRecDefaultY = eventRec.y;
     }
     public void checkEvent(){
-        if (hit(95,7,"any")==true){damageFireLake();}
+        if (hit(98,7,"any")==true){damageFireLake();}
         else {damage = 1;}
         if (hit(94,7,"any")==true){damageFireLake();}
         else {damage = 1;}

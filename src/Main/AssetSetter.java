@@ -1,9 +1,6 @@
 package Main;
 
-import object.Chest;
-import object.Key;
-import object.LavaPit;
-import object.TubePortal;
+import object.*;
 
 public class AssetSetter {
     GamePanel gp;
@@ -41,7 +38,11 @@ public class AssetSetter {
         gp.obj[6].worldY = 8*gp.tileSize;
 
         gp.obj[7] = new LavaPit();
-        gp.obj[7].worldX = 95* gp.tileSize;
+        gp.obj[7].worldX = 98* gp.tileSize;
         gp.obj[7].worldY = 8*gp.tileSize;
+
+        gp.obj[8] = new Heal();
+        gp.obj[8].worldX = 96* gp.tileSize;
+        gp.obj[8].worldY = 7*gp.tileSize;
     }
 }

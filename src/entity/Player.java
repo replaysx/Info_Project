@@ -86,7 +86,7 @@ else {
 }
 
 
-    if (keyH.leftPressed || keyH.rightPressed || keyH.upPressed || keyH.downPressed) {
+    if (keyH.leftPressed || keyH.rightPressed || keyH.upPressed || keyH.downPressed ) {
         if (keyH.upPressed) {
             direction = "up";
 
@@ -100,15 +100,19 @@ else {
 
             direction = "right";
         }
-        spriteCounter++;
-        if (spriteCounter > 10) {
-            if (spriteNum == 1) {
-                spriteNum = 2;
-            } else if (spriteNum == 2) {
-                spriteNum = 1;
-            }
-            spriteCounter = 0;
+
+            spriteCounter++;
+            if (spriteCounter > 7) {
+                if (spriteNum == 1) {
+                    spriteNum = 2;
+                } else if (spriteNum == 2) {
+                    spriteNum = 1;
+                }
+                spriteCounter = 0;
+
         }
+
+
         collisionon =false;
         gp.cChecker.checkTile(this);
         objIndex = gp.cChecker.checkObject(this,true);
@@ -146,7 +150,13 @@ public void pickUp(int index){
              case "Chest":
                  if (hasKey > 0){
                      hasKey --;
+                     gp.obj[index] = null;
                  }
+                 break;
+             case "heal":
+
+                     gp.obj[index] = null;
+                 life = maxLife;
                  break;
          }
      }
