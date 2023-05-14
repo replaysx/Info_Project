@@ -36,6 +36,10 @@ public class GamePanel extends JPanel implements Runnable{
     public Player player = new Player(this,keyH);
     public SuperObject obj[] = new SuperObject[10];
 
+    //GAME STATE
+    public int gameState;
+    public final int playState=1;
+    public final int pauseState =2;
 
 
 
@@ -50,6 +54,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void setupGame(){
         aSet.setObject();
+        gameState=playState;
     }
 
     public void startGameThread(){
@@ -89,9 +94,15 @@ public class GamePanel extends JPanel implements Runnable{
 
     }
     public void update(){
-      player.update();
-      tileM.update();
-      levelbar.update();
+        if (gameState == playState){
+            player.update();
+            tileM.update();
+            levelbar.update();
+        }
+        if (gameState == pauseState){
+            //nichts
+
+        }
 
 
 
