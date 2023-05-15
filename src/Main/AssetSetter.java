@@ -38,7 +38,7 @@ public class AssetSetter {
         gp.obj[6].worldY = 8*gp.tileSize;
 
         gp.obj[7] = new LavaPit();
-        gp.obj[7].worldX = 98* gp.tileSize;
+        gp.obj[7].worldX = 95* gp.tileSize;
         gp.obj[7].worldY = 8*gp.tileSize;
 
         gp.obj[8] = new Heal();
