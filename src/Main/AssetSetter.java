@@ -1,5 +1,6 @@
 package Main;
 
+import entity.NPC_Wizard;
 import object.*;
 
 public class AssetSetter {
@@ -44,5 +45,10 @@ public class AssetSetter {
         gp.obj[8] = new Heal();
         gp.obj[8].worldX = 96* gp.tileSize;
         gp.obj[8].worldY = 7*gp.tileSize;
+    }
+    public void setNPC(){
+        gp.npc[0] = new NPC_Wizard(gp);
+        gp.npc[0].worldX = 85* gp.tileSize ;
+        gp.npc[0].worldY = 7*gp.tileSize +8;
     }
 }

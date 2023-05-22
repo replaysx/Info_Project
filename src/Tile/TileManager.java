@@ -13,25 +13,32 @@ public class TileManager {
     GamePanel gp;
      public Tile[] tile;
      public int mapTileNum[][];
+     public String level;
 
 
-    public int j;
+
 
 
      public TileManager(GamePanel gp){
          this.gp = gp;
 
-
-
          tile = new Tile[10];
 
          mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
-         getTileImage();
-         loadMap();
+
      }
+
      public void loadMap(){
+         switch (gp.level){
+             case 1: level = "/Map/World.txt";
+             break;
+             case 2: level = "/Map/World2.txt";
+                 break;
+             case 3: level = "/Map/World3.txt";
+                 break;
+         }
          try {
-             InputStream is = getClass().getResourceAsStream("/Map/World.txt");
+             InputStream is = getClass().getResourceAsStream(level);
              BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
              int col = 0;
@@ -58,6 +65,7 @@ public class TileManager {
 
          }
      }
+
      public void getTileImage(){
          try {
              tile[0]= new Tile();
@@ -105,6 +113,7 @@ public class TileManager {
 
      }
     public void update(){
+
 
     }
 }

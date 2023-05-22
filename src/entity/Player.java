@@ -27,6 +27,7 @@ public int realjumpspeed;
 
 
     public Player(GamePanel gp,KeyHandler keyH){
+        super(gp);
         this.gp = gp;
         this.keyH = keyH;
         screenX = gp.screenWidth/2;
@@ -114,6 +115,8 @@ else {
 
 
         collisionon =false;
+        int npcIndex = gp.cChecker.checkEntity(this,gp.npc);
+        interactNPC(npcIndex);
         gp.cChecker.checkTile(this);
         objIndex = gp.cChecker.checkObject(this,true);
         pickUp(objIndex);
@@ -137,6 +140,11 @@ else {
     }
 
 
+}
+public void interactNPC(int i){
+        if (i!=999){
+System.out.println("Treffer");
+        }
 }
 public void pickUp(int index){
      if (index!=999)  {
@@ -164,22 +172,7 @@ public void pickUp(int index){
 public void draw(Graphics2D g2){
     BufferedImage image = null;
     switch(direction){
-        case "up":
-            if (spriteNum == 1){
-                image = right1;
-            }
-            if (spriteNum == 2){
-                image = right2;
-            }
-            break;
-        case "down":
-            if (spriteNum == 1){
-                image = right1;
-            }
-            if (spriteNum == 2){
-                image = right2;
-            }
-            break;
+
         case "right":
             if (spriteNum == 1){
                 image = right1;

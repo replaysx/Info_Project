@@ -55,6 +55,43 @@ public class KeyHandler implements KeyListener {
 
 
         }
+        if (gp.gameState == gp.levelState){
+            if(code == KeyEvent.VK_S){
+                gp.ui.commandNum++;
+                if (gp.ui.commandNum>2){
+                    gp.ui.commandNum=0;
+                }
+            }
+            if(code == KeyEvent.VK_W){
+                gp.ui.commandNum--;
+                if (gp.ui.commandNum<0){
+                    gp.ui.commandNum=2;
+                }
+            }
+            if (code == KeyEvent.VK_ENTER){
+                if (gp.ui.commandNum==0){
+                    gp.level = 1;
+                    gp.gameState = gp.playState;
+                    gp.tileM.getTileImage();
+                    gp.tileM.loadMap();
+
+                }
+                if (gp.ui.commandNum==1){
+                    gp.level = 2;
+                    gp.gameState = gp.playState;
+                    gp.tileM.getTileImage();
+                    gp.tileM.loadMap();
+
+                }
+                if (gp.ui.commandNum==2){
+                    gp.level = 3;
+                    gp.gameState = gp.playState;
+                    gp.tileM.getTileImage();
+                    gp.tileM.loadMap();
+
+                }
+            }
+        }
         if (gp.gameState==gp.titleState){
             if(code == KeyEvent.VK_S){
                 gp.ui.commandNum++;
@@ -70,7 +107,7 @@ public class KeyHandler implements KeyListener {
             }
             if (code == KeyEvent.VK_ENTER){
                 if (gp.ui.commandNum==0){
-                    gp.gameState=gp.playState;
+                    gp.gameState = gp.levelState;
                 }
                 if (gp.ui.commandNum==2){
                     System.exit(0);

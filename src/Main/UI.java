@@ -4,8 +4,10 @@ import object.Heart;
 import object.Key;
 import object.SuperObject;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class UI {
     GamePanel gp;
@@ -19,6 +21,8 @@ public class UI {
     BufferedImage heartfull, hearthalf, heartblank;
 
     BufferedImage keyImage;
+
+    BufferedImage Title,LevelScreen;
     public  UI (GamePanel gp){
         this.gp = gp;
         arial_40 = new Font("Arial",Font.PLAIN,40);
@@ -28,6 +32,14 @@ public class UI {
         heartfull = heart.image;
         hearthalf = heart.image2;
         heartblank = heart.image3;
+        try {
+            Title = ImageIO.read(getClass().getResourceAsStream("/Map/Jump & RUn.png"));
+            LevelScreen = ImageIO.read(getClass().getResourceAsStream("/Map/Jump & RUn(1).png"));
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+
     }
     public void draw(Graphics2D g2){
         this.g2 =g2;
@@ -65,11 +77,14 @@ public class UI {
         if (gp.gameState == gp.pauseState){
             drawPauseScreen();
         }
+        if (gp.gameState == gp.levelState){
+            drawLevelScreen();
+        }
 
 
     }
     public void drawTitleScreen(){
-        g2.setColor(new Color(0,0,0));
+        /*g2.setColor(new Color(0,0,0));
         g2.fillRect(0,0,gp.screenWidth,gp.screenHeight);
         //Titelname
         g2.setFont(g2.getFont().deriveFont(Font.BOLD,72F));
@@ -92,25 +107,43 @@ public class UI {
         x =getXforCenterText(text);
         y=y+gp.tileSize*4;
         g2.drawString(text,x,y);
-        if (commandNum==0){
-            g2.drawString(">",x-gp.tileSize,y);
-        }
+
 
         text ="LOAD GAME";
         x =getXforCenterText(text);
         y=y+gp.tileSize;
         g2.drawString(text,x,y);
-        if (commandNum==1){
-            g2.drawString(">",x-gp.tileSize,y);
-        }
+
 
         text ="QUIT";
         x =getXforCenterText(text);
         y=y+gp.tileSize;
-        g2.drawString(text,x,y);
-        if (commandNum==2){
-            g2.drawString(">",x-gp.tileSize,y);
+        g2.drawString(text,x,y);*/
+
+        g2.drawImage(Title,0,0,gp.screenWidth,gp.screenHeight,null);
+        if (commandNum==0){
+            g2.drawString(">",255,340);
         }
+        if (commandNum==1){
+            g2.drawString(">",245,405);
+        }
+        if (commandNum==2){
+            g2.drawString(">",310,470);
+        }
+    }
+    public void drawLevelScreen(){
+       g2.drawImage(LevelScreen,0,0,gp.screenWidth,gp.screenHeight,null);
+        if (commandNum==0){
+            g2.drawString(">",40,405);
+        }
+        if (commandNum==1){
+            g2.drawString(">",275,405);
+        }
+        if (commandNum==2){
+            g2.drawString(">",520,405);
+        }
+
+
     }
     public void drawPauseScreen(){
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN,60F));

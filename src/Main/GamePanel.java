@@ -1,6 +1,7 @@
 package Main;
 
 import Tile.TileManager;
+import entity.Entity;
 import entity.Player;
 import object.SuperObject;
 
@@ -35,13 +36,17 @@ public class GamePanel extends JPanel implements Runnable{
 
     public Player player = new Player(this,keyH);
     public SuperObject obj[] = new SuperObject[10];
+    public Entity npc[] = new Entity[10];
 
     //GAME STATE
     public int gameState;
+    public  int level = 1;
 
     public final int titleState=0;
     public final int playState=1;
     public final int pauseState =2;
+
+    public final int levelState = 3;
 
 
 
@@ -56,6 +61,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void setupGame(){
         aSet.setObject();
+        aSet.setNPC();
         gameState=titleState;
     }
 
@@ -100,6 +106,12 @@ public class GamePanel extends JPanel implements Runnable{
             player.update();
             tileM.update();
             levelbar.update();
+            for (int i = 0; i < npc.length; i++) {
+                if (npc[i] != null) {
+                    npc[i].update();
+                }
+            }
+
         }
         if (gameState == pauseState){
             //nichts
@@ -109,15 +121,14 @@ public class GamePanel extends JPanel implements Runnable{
 
 
     }
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D) g;
-        //Title Screen
-        if (gameState==titleState){
+        if (gameState == levelState) {
             ui.draw(g2);
         }
-        else {
+        if (gameState != titleState && gameState != levelState) {
             //Tile
             tileM.draw(g2);
             for (int i = 0; i < obj.length; i++) {
@@ -125,12 +136,19 @@ public class GamePanel extends JPanel implements Runnable{
                     obj[i].draw(g2, this);
                 }
             }
+            for (int i = 0; i < npc.length; i++) {
+                if (npc[i] != null) {
+                    npc[i].draw(g2);
+                }
+            }
             player.draw(g2);
             levelbar.draw(g2);
             ui.draw(g2);
         }
 
-        g2.dispose();
-
+        //Title Screen
+        if (gameState == titleState) {
+            ui.draw(g2);
+        }
     }
 }
