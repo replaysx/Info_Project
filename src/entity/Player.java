@@ -16,6 +16,11 @@ public class Player extends Entity{
     public final int screenY;
     public final int screenX;
    public int hasKey = 0;
+   public boolean invincible;
+   public int invincibleCounter;
+   public int damage = 1;
+
+
 
 
 
@@ -34,11 +39,13 @@ public int realjumpspeed;
         screenY = gp.screenHeight/2;
         solidArea = new Rectangle();
         solidArea.x = 0;
-        solidArea.y = 0;
+        solidArea.y = 60;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
-        solidArea.width = 38;
-        solidArea.height = 38;
+        solidArea.width = 48;
+        solidArea.height = 68;
+        attackArea.width=36;
+        attackArea.height=36;
         setDefaultValues();
         getPlayerImage();
     }
@@ -51,23 +58,83 @@ public void setDefaultValues(){
         jumpspeed = 0;
         maxLife = 6;
         life = maxLife;
+        imageLeft = new BufferedImage[8];
+        imageRight = new BufferedImage[8];
+        attackLeft = new BufferedImage[8];
+        attackRight = new BufferedImage[8];
+        jumpLeft = new BufferedImage[3];
+        jumpRight = new BufferedImage[8];
 
 }
 public void getPlayerImage(){
         try {
-            left1 = ImageIO.read(getClass().getResourceAsStream("/player/pixilart-drawing(1).png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/player/pixil-frame-0.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/player/pixilart-drawing(2).png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/player/pixilart-drawing.png"));
+            imageRight[0] = ImageIO.read(getClass().getResourceAsStream("/playerImages/run1.png"));
+            imageRight[1] = ImageIO.read(getClass().getResourceAsStream("/playerImages/run2.png"));
+            imageRight[2] = ImageIO.read(getClass().getResourceAsStream("/playerImages/run3.png"));
+            imageRight[3] = ImageIO.read(getClass().getResourceAsStream("/playerImages/run4.png"));
+            imageRight[4] = ImageIO.read(getClass().getResourceAsStream("/playerImages/run5.png"));
+            imageRight[5] = ImageIO.read(getClass().getResourceAsStream("/playerImages/run6.png"));
+            imageRight[6] = ImageIO.read(getClass().getResourceAsStream("/playerImages/run7.png"));
+            imageRight[7] = ImageIO.read(getClass().getResourceAsStream("/playerImages/run8.png"));
+            imageLeft[0] = ImageIO.read(getClass().getResourceAsStream("/playerImages/runL (1).png"));
+            imageLeft[1] = ImageIO.read(getClass().getResourceAsStream("/playerImages/runL (8).png"));
+            imageLeft[2] = ImageIO.read(getClass().getResourceAsStream("/playerImages/runL (7).png"));
+            imageLeft[3] = ImageIO.read(getClass().getResourceAsStream("/playerImages/runL (6).png"));
+            imageLeft[4] = ImageIO.read(getClass().getResourceAsStream("/playerImages/runL (5).png"));
+            imageLeft[5] = ImageIO.read(getClass().getResourceAsStream("/playerImages/runL (4).png"));
+            imageLeft[6] = ImageIO.read(getClass().getResourceAsStream("/playerImages/runL (3).png"));
+            imageLeft[7] = ImageIO.read(getClass().getResourceAsStream("/playerImages/runL (2).png"));
+
+            attackRight[0] = ImageIO.read(getClass().getResourceAsStream("/playerImages/attac1.png"));
+            attackRight[1] = ImageIO.read(getClass().getResourceAsStream("/playerImages/attac2.png"));
+            attackRight[2] = ImageIO.read(getClass().getResourceAsStream("/playerImages/attac3.png"));
+            attackRight[3] = ImageIO.read(getClass().getResourceAsStream("/playerImages/attac4.png"));
+            attackRight[4] = ImageIO.read(getClass().getResourceAsStream("/playerImages/attac5.png"));
+            attackRight[5] = ImageIO.read(getClass().getResourceAsStream("/playerImages/attac6.png"));
+            attackRight[6] = ImageIO.read(getClass().getResourceAsStream("/playerImages/attac7.png"));
+            attackRight[7] = ImageIO.read(getClass().getResourceAsStream("/playerImages/attac8.png"));
+            attackLeft[0] = ImageIO.read(getClass().getResourceAsStream("/playerImages/attacL (1).png"));
+            attackLeft[1] = ImageIO.read(getClass().getResourceAsStream("/playerImages/attacL (2).png"));
+            attackLeft[2] = ImageIO.read(getClass().getResourceAsStream("/playerImages/attacL (3).png"));
+            attackLeft[3] = ImageIO.read(getClass().getResourceAsStream("/playerImages/attacL (4).png"));
+            attackLeft[4] = ImageIO.read(getClass().getResourceAsStream("/playerImages/attacL (5).png"));
+            attackLeft[5] = ImageIO.read(getClass().getResourceAsStream("/playerImages/attacL (6).png"));
+            attackLeft[6] = ImageIO.read(getClass().getResourceAsStream("/playerImages/attacL (7).png"));
+            attackLeft[7] = ImageIO.read(getClass().getResourceAsStream("/playerImages/attacL (8).png"));
+
+            jumpRight[0] = ImageIO.read(getClass().getResourceAsStream("/playerImages/jump.png"));
+            jumpRight[1] = ImageIO.read(getClass().getResourceAsStream("/playerImages/midair.png"));
+            jumpRight[2] = ImageIO.read(getClass().getResourceAsStream("/playerImages/fall.png"));
+
+            jumpLeft[0] = ImageIO.read(getClass().getResourceAsStream("/playerImages/jumpL.png"));
+            jumpLeft[1] = ImageIO.read(getClass().getResourceAsStream("/playerImages/midairL.png"));
+            jumpLeft[2] = ImageIO.read(getClass().getResourceAsStream("/playerImages/fallL.png"));
+
+
+
 
         }catch (IOException e){
             e.printStackTrace();
         }
 }
 public void update() {
+        if (keyH.enterPressed == true){
+            attacking = true;
+        }
+        if (attacking == true){
+
+            attacking();
+        }else {damage =1;}
         int objIndex = gp.cChecker.checkObject(this,true);
     pickUp(objIndex);
-gp.cChecker.checkTile(this);
+gp.cChecker.checkisgrounded(this);
+if (invincible==true){
+    invincibleCounter ++;
+    if (invincibleCounter>60){
+        invincible =false;
+        invincibleCounter = 0;
+    }
+}
 
  if (isgrounded == false){
      jumpspeed = jumpspeed - gravityspeed;
@@ -103,12 +170,11 @@ else {
         }
 
             spriteCounter++;
-            if (spriteCounter > 7) {
-                if (spriteNum == 1) {
-                    spriteNum = 2;
-                } else if (spriteNum == 2) {
-                    spriteNum = 1;
+            if (spriteCounter > 4) {
+                if (spriteNum == 8){
+                    spriteNum = 0;
                 }
+                spriteNum ++;
                 spriteCounter = 0;
 
         }
@@ -123,12 +189,6 @@ else {
         gp.eHandler.checkEvent();
         if (collisionon == false){
             switch (direction){
-                case"up":
-                    worldY = worldY - speed;
-                    break;
-                case"down":
-                    worldY = worldY + speed;
-                    break;
                 case"right":
                     worldX = worldX + speed;
                     break;
@@ -141,11 +201,60 @@ else {
 
 
 }
-public void interactNPC(int i){
-        if (i!=999){
-System.out.println("Treffer");
+public void attacking(){
+    int currentWorldX = worldX;
+    int currentWorldY = worldY;
+    int solidAreaWidth = solidArea.width;
+    int solidAreaHeight = solidArea.height;
+
+    switch (direction){
+        case "right": worldX += attackArea.width;
+            break;
+        case "left": worldX -= attackArea.width;
+            break;
+    }
+    solidArea.width = attackArea.width;
+    solidArea.height = attackArea.height;
+
+    int monsterIndex = gp.cChecker.checkEntity(this, gp.npc);
+    damageMonster(monsterIndex);
+
+    worldX = currentWorldX;
+    worldY = currentWorldY;
+    solidArea.width = solidAreaWidth;
+    solidArea.height = solidAreaHeight;
+
+        animationCounter ++;
+        if (animationCounter > 4){
+            if (animationNum == 8){
+                attacking = false;
+                animationNum =0;
+
+            }animationNum ++;
+            animationCounter = 0;
         }
 }
+public void interactNPC(int i){
+        if (i!=999){
+            if (invincible == false){
+                life = life-1;
+                invincible = true;
+            }
+        }
+
+}
+public void damageMonster(int i){
+       if (i!=999){
+           gp.npc[i].life -= damage;
+           damage =0;
+
+           if (gp.npc[i].life <=0){
+               gp.npc[i] = null;
+           }
+       }
+
+}
+
 public void pickUp(int index){
      if (index!=999)  {
          String objectName = gp.obj[index].name;
@@ -166,6 +275,12 @@ public void pickUp(int index){
                      gp.obj[index] = null;
                  life = maxLife;
                  break;
+             case "LavaPit":
+                 if (invincible == false){
+                     life = life-1;
+                     invincible = true;
+                 }
+                 break;
          }
      }
 }
@@ -173,23 +288,57 @@ public void draw(Graphics2D g2){
     BufferedImage image = null;
     switch(direction){
 
-        case "right":
-            if (spriteNum == 1){
-                image = right1;
+        case "right": if (isgrounded==false){
+            image = jumpRight[1];
+
+          /*  if (realjumpspeed > 5){
+                image = jumpRight[0];
             }
-            if (spriteNum == 2){
-                image = right2;
+            if (realjumpspeed > -5 && realjumpspeed < 5){
+                image = jumpRight[1];
             }
+            if (realjumpspeed < -5){
+                image = jumpRight[2];
+            } */
+
+        }else{
+            if (attacking == false){
+            image = imageRight[spriteNum-1];
+        }else {
+            image = attackRight[animationNum-1];
+        }
+        }
+
             break;
         case "left":
-            if (spriteNum == 1){
-                image = left1;
+            if (isgrounded==false){
+
+                image = jumpRight[1];
+                    /* if (realjumpspeed > 5) {
+                        image = jumpRight[0];
+                    }
+                    if (realjumpspeed > -5 && realjumpspeed < 5) {
+                        image = jumpRight[1];
+                    }
+                    if (realjumpspeed < -5) {
+                        image = jumpRight[2];
+                   } */
+
+
+            }else {
+
+                if (attacking == false) {
+                    image = imageLeft[spriteNum - 1];
+                } else {
+                    image = attackLeft[animationNum - 1];
+                }
             }
-            if (spriteNum == 2){
-                image = left2;
-            }
+
             break;
     }
-    g2.drawImage(image, screenX, screenY, gp.tileSize,gp.tileSize, null);
+    g2.drawImage(image, screenX, screenY, gp.tileSize*2,gp.tileSize*2, null);
+
 }
+
+
 }

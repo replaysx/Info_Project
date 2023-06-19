@@ -9,15 +9,26 @@ public class Entity {
     GamePanel gp;
     public int worldX,worldY;
     public int speed;
-    public BufferedImage left1,left2,right1,right2;
+    public BufferedImage[] imageRight,imageLeft, jumpRight,jumpLeft,attackRight,attackLeft;
+
+
+
     public String direction ;
     public int spriteCounter = 0;
     public int spriteNum = 1;
-    public Rectangle solidArea = new Rectangle(5,5,38,38);
+    public Rectangle solidArea = new Rectangle(5,5,50,100);
     public boolean collisionon = false;
 
     public boolean isgrounded = false;
     public int solidAreaDefaultX,solidAreaDefaultY;
+
+    public int type;
+    boolean attacking = false;
+    public int animationCounter = 0;
+    public int animationNum = 0;
+    public Rectangle attackArea = new Rectangle(0,0,0,0);
+   
+
 
     public int maxLife;
     public int life;
@@ -28,21 +39,28 @@ public class Entity {
     public void setAction(){
 
     }
+
     public void update(){
         setAction();
         collisionon = false;
        gp.cChecker.checkTile(this);
         System.out.println(collisionon);
         gp.cChecker.checkObject(this,false);
-       gp.cChecker.checkPlayer(this);
+      boolean contactPlayer = gp.cChecker.checkPlayer(this);
+
+      if (this.type == 1 && contactPlayer == true){
+          if (gp.player.invincible == false){
+              gp.player.life -= 1;
+              gp.player.invincible = true;
+          }
+      }
 
         spriteCounter++;
-        if (spriteCounter > 7) {
-            if (spriteNum == 1) {
-                spriteNum = 2;
-            } else if (spriteNum == 2) {
-                spriteNum = 1;
+        if (spriteCounter > 5) {
+            if (spriteNum == 13){
+                spriteNum = 0;
             }
+            spriteNum ++;
             spriteCounter = 0;
 
         }
@@ -59,31 +77,30 @@ public class Entity {
             }
         }
     }
-    public void draw (Graphics2D g2){
+    public void draw (Graphics2D g2) {
         BufferedImage image = null;
         int screenX = worldX - gp.player.worldX + gp.player.screenX;
         int screenY = worldY - gp.player.worldY + gp.player.screenY;
-        switch(direction){
+        switch (direction) {
 
             case "right":
-                if (spriteNum == 1){
-                    image = right1;
-                }
-                if (spriteNum == 2){
-                    image = right2;
-                }
+                image = imageRight[spriteNum - 1];
                 break;
             case "left":
-                if (spriteNum == 1){
-                    image = left1;
-                }
-                if (spriteNum == 2){
-                    image = left2;
-                }
+                image = imageLeft[spriteNum - 1];
                 break;
+        }
 
-    }
-        g2.drawImage(image,screenX,screenY,gp.tileSize, gp.tileSize, null);
+        if (type == 1) {
+            double oneScale = (double) gp.tileSize / maxLife;
+            double hpBar = oneScale * life;
+            g2.setColor(Color.darkGray);
+            g2.fillRect(screenX - 2, screenY - 17, gp.tileSize + 4, 14);
+            g2.setColor(Color.red);
+            g2.fillRect(screenX, screenY - 15, (int)hpBar, 10);
+        }
+        g2.drawImage(image, screenX, screenY, gp.tileSize*2, gp.tileSize * 2, null);
+
     }
 
 }
