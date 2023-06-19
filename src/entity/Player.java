@@ -261,6 +261,7 @@ public void pickUp(int index){
 
          switch (objectName) {
              case "Key":
+                 gp.playSE(1);
                  gp.obj[index] = null;
                  hasKey ++;
                  break;

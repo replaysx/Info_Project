@@ -22,7 +22,7 @@ public class TileManager {
      public TileManager(GamePanel gp){
          this.gp = gp;
 
-         tile = new Tile[10];
+         tile = new Tile[20];
 
          mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
 
@@ -68,6 +68,7 @@ public class TileManager {
 
      public void getTileImage(){
          try {
+
              tile[0]= new Tile();
              tile[0].image = ImageIO.read(getClass().getResourceAsStream("/Tiles/pixil-frame-0(2).png"));
              tile[0].collision = true;
@@ -82,8 +83,53 @@ public class TileManager {
 
              tile[3]= new Tile();
              tile[3].image = ImageIO.read(getClass().getResourceAsStream("/Tiles/pixil-frame-0(6).png"));
+                 /*
+                          //Neuen Tiles eingefügt
+             tile[0]= new Tile();
+             tile[0].image = ImageIO.read(getClass().getResourceAsStream("/NewTiles.Map/000.png"));
 
 
+             tile[2]= new Tile();
+             tile[2].image = ImageIO.read(getClass().getResourceAsStream("/NewTiles.Map/gras1.png"));
+             tile[2].collision = true;
+
+             tile[3]= new Tile();
+             tile[3].image = ImageIO.read(getClass().getResourceAsStream("/NewTiles.Map/gras2.png"));
+             tile[3].collision = true;
+
+             tile[5]= new Tile();
+             tile[5].image = ImageIO.read(getClass().getResourceAsStream("/NewTiles.Map/grass4.png"));
+             tile[5].collision = true;
+
+             tile[6]= new Tile();
+             tile[6].image = ImageIO.read(getClass().getResourceAsStream("/NewTiles.Map/grass5.png"));
+             tile[6].collision = true;
+
+             tile[7]= new Tile();
+             tile[7].image = ImageIO.read(getClass().getResourceAsStream("/NewTiles.Map/grass6.png"));
+             tile[7].collision = true;
+
+             tile[8]= new Tile();
+             tile[8].image = ImageIO.read(getClass().getResourceAsStream("/NewTiles.Map/grass7.png"));
+             tile[8].collision = true;
+
+             tile[9]= new Tile();
+             tile[9].image = ImageIO.read(getClass().getResourceAsStream("/NewTiles.Map/grass8.png"));
+             tile[9].collision = true;
+
+             tile[10]= new Tile();
+             tile[10].image = ImageIO.read(getClass().getResourceAsStream("/NewTiles.Map/grass9.png"));
+             tile[10].collision = true;
+
+             tile[15]= new Tile();
+             tile[15].image = ImageIO.read(getClass().getResourceAsStream("/NewTiles.Map/grassl.png"));
+             tile[15].collision = true;
+
+             tile[16]= new Tile();
+             tile[16].image = ImageIO.read(getClass().getResourceAsStream("/NewTiles.Map/grassr.png"));
+             tile[16].collision = true;
+
+         */
          } catch (IOException e) {
              e.printStackTrace();
          }
