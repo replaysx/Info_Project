@@ -21,15 +21,24 @@ public class Entity {
 
     public boolean isgrounded = false;
     public int solidAreaDefaultX,solidAreaDefaultY;
+    public String name;
+    public BufferedImage image;
 
     public int type;
     boolean attacking = false;
     public int animationCounter = 0;
     public int animationNum = 0;
     public Rectangle attackArea = new Rectangle(0,0,0,0);
-   
 
-
+    public int strength;
+    public int attack;
+    public int defense;
+    public int level;
+    public int coin;
+    public Entity currentWeapon;
+    public Entity currentShield;
+    public int attackValue;
+    public int defenseValue;
     public int maxLife;
     public int life;
     public int actionLockCounter;

@@ -20,17 +20,20 @@ public class KeyHandler implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        int code = e.getKeyCode();
-        if (code == KeyEvent.VK_W){
 
-
-        }
 
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
+        if(code == KeyEvent.VK_I){
+
+            if (gp.gameState ==gp.characterState){
+                gp.gameState = gp.playState;
+            }else {gp.gameState = gp.characterState;}
+
+        }
         if(code == KeyEvent.VK_F){
             enterPressed = true;
 

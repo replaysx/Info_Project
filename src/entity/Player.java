@@ -3,6 +3,8 @@ package entity;
 
 import Main.GamePanel;
 import Main.KeyHandler;
+import object.Shield;
+import object.Weapon;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -64,7 +66,21 @@ public void setDefaultValues(){
         attackRight = new BufferedImage[8];
         jumpLeft = new BufferedImage[3];
         jumpRight = new BufferedImage[8];
+        level = 1;
+        strength =1;
+        coin = 0;
+        currentWeapon = new Weapon(gp);
+        currentShield = new Shield(gp);
+        attack = getAttack();
+        defense = getDefense();
 
+
+}
+public int getAttack(){
+     return attack = currentWeapon.attackValue;
+}
+public int getDefense(){
+return  defense = currentShield.defenseValue;
 }
 public void getPlayerImage(){
         try {
@@ -261,7 +277,7 @@ public void pickUp(int index){
 
          switch (objectName) {
              case "Key":
-                 gp.playSE(1);
+                // gp.playSE(1);
                  gp.obj[index] = null;
                  hasKey ++;
                  break;
