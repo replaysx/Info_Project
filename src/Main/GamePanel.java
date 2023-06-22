@@ -34,6 +34,7 @@ public class GamePanel extends JPanel implements Runnable{
     public UI ui = new UI(this);
     public EventHandler eHandler = new EventHandler(this);
 
+    Sound sound = new Sound();
     public Player player = new Player(this,keyH);
     public SuperObject obj[] = new SuperObject[20];
     public Entity npc[] = new Entity[10];
@@ -65,14 +66,18 @@ public class GamePanel extends JPanel implements Runnable{
         aSet.setObject();
         aSet.setNPC();
         gameState=titleState;
+        playMusic(2);
     }
 
     public void startGameThread(){
         gameThread = new Thread(this);
         gameThread.start();
+
+
     }
     @Override
     public void run() {
+
         double drawInterval = 1000000000/FPS;
         double delta = 0;
         long lastTime = System.nanoTime();
@@ -103,8 +108,11 @@ public class GamePanel extends JPanel implements Runnable{
         }
 
     }
+
+
     public void update(){
         if (gameState == playState){
+
             player.update();
             tileM.update();
             levelbar.update();
@@ -116,8 +124,7 @@ public class GamePanel extends JPanel implements Runnable{
 
         }
         if (gameState == pauseState){
-            //nichts
-
+            stopMusic(2);
         }
 
 
@@ -132,6 +139,7 @@ public class GamePanel extends JPanel implements Runnable{
         }
         if (gameState != titleState && gameState != levelState) {
             //Tile
+
             tileM.draw(g2);
             for (int i = 0; i < obj.length; i++) {
                 if (obj[i] != null) {
@@ -151,6 +159,23 @@ public class GamePanel extends JPanel implements Runnable{
         //Title Screen
         if (gameState == titleState) {
             ui.draw(g2);
+
         }
     }
+
+    public void playMusic(int i){
+        sound.setFile(i);
+        sound.play();
+        sound.loop();
+    }
+
+    public void stopMusic (int i){
+        sound.stop();
+    }
+
+    public void playSE (int i){
+        sound.setFile(i);
+        sound.play();
+    }
+
 }
