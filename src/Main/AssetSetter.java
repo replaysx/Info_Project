@@ -45,6 +45,14 @@ public class AssetSetter {
         gp.obj[8] = new Heal();
         gp.obj[8].worldX = 96* gp.tileSize;
         gp.obj[8].worldY = 7*gp.tileSize;
+
+        gp.obj[9] = new Potion_Orange(gp);
+        gp.obj[9].worldX = 78* gp.tileSize;
+        gp.obj[9].worldY = 7*gp.tileSize;
+
+        gp.obj[10] = new Potion_Orange(gp);
+        gp.obj[10].worldX = 10* gp.tileSize;
+        gp.obj[10].worldY = 8*gp.tileSize;
     }
     public void setNPC(){
         gp.npc[0] = new NPC_Wizard(gp);

@@ -14,5 +14,7 @@ public class Key extends  SuperObject{
         catch (IOException e){
             e.printStackTrace();
         }
+        description = "["+name+"] \nDas ist ein Schwert";
+        type = type_consumable;
     }
 }

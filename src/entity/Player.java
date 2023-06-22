@@ -3,13 +3,13 @@ package entity;
 
 import Main.GamePanel;
 import Main.KeyHandler;
-import object.Shield;
-import object.Weapon;
+import object.*;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class Player extends Entity{
@@ -21,6 +21,11 @@ public class Player extends Entity{
    public boolean invincible;
    public int invincibleCounter;
    public int damage = 1;
+
+   public ArrayList<SuperObject> inventory = new ArrayList<>();
+   public final int maxInventorySize = 20;
+    public SuperObject currentWeapon;
+    public SuperObject currentShield;
 
 
 
@@ -46,14 +51,13 @@ public int realjumpspeed;
         solidAreaDefaultY = solidArea.y;
         solidArea.width = 48;
         solidArea.height = 68;
-        attackArea.width=36;
-        attackArea.height=36;
         setDefaultValues();
         getPlayerImage();
+        setItems();
     }
 public void setDefaultValues(){
-        worldX = 100;
-        worldY = 100;
+        worldX = 10;
+        worldY = 0;
         speed = 4;
         direction = "right";
         gravityspeed = 0.5;
@@ -69,6 +73,7 @@ public void setDefaultValues(){
         level = 1;
         strength =1;
         coin = 0;
+
         currentWeapon = new Weapon(gp);
         currentShield = new Shield(gp);
         attack = getAttack();
@@ -76,8 +81,47 @@ public void setDefaultValues(){
 
 
 }
+public void selectItem(){
+        int itemIndex = gp.ui.getItemIndex();
+        if (itemIndex <inventory.size()){
+            SuperObject selectedItem = inventory.get(itemIndex);
+            if (selectedItem.type == currentWeapon.type_weapon){
+                currentWeapon = selectedItem;
+                attack = getAttack();
+            }
+            if (selectedItem.type == currentShield.type_shield){
+                currentShield = selectedItem;
+                defense = getDefense();
+            }
+            if (selectedItem.type == currentShield.type_consumable){
+                selectedItem.use();
+                inventory.remove(itemIndex);
+            }
+
+        }
+}
+
+public void setItems(){
+        inventory.add(currentWeapon);
+    inventory.add(currentShield);
+    inventory.add(new Key());
+    inventory.add(new Key());
+    inventory.add(new Key());
+    inventory.add(new Key());
+    inventory.add(new Key());
+    inventory.add(new Key());
+    inventory.add(new Key());
+    inventory.add(new Key());
+    inventory.add(new Key());
+    inventory.add(new Key());
+}
 public int getAttack(){
+    attackArea.width = currentWeapon.attackWidth;
+    attackArea.height = currentWeapon.attackHeight;
      return attack = currentWeapon.attackValue;
+
+
+
 }
 public int getDefense(){
 return  defense = currentShield.defenseValue;
@@ -253,7 +297,8 @@ public void attacking(){
 public void interactNPC(int i){
         if (i!=999){
             if (invincible == false){
-                life = life-1;
+                int damage = gp.npc[i].attack -defense;
+                life = life-damage ;
                 invincible = true;
             }
         }
@@ -261,6 +306,7 @@ public void interactNPC(int i){
 }
 public void damageMonster(int i){
        if (i!=999){
+           damage = attack;
            gp.npc[i].life -= damage;
            damage =0;
 
@@ -278,8 +324,10 @@ public void pickUp(int index){
          switch (objectName) {
              case "Key":
                 // gp.playSE(1);
+                 if (inventory.size() !=maxInventorySize)
                  gp.obj[index] = null;
                  hasKey ++;
+                 inventory.add(new Key());
                  break;
              case "Chest":
                  if (hasKey > 0){
@@ -297,6 +345,13 @@ public void pickUp(int index){
                      life = life-1;
                      invincible = true;
                  }
+                 break;
+             case "OrangeJuice":
+                 if (inventory.size() !=maxInventorySize)
+                     gp.obj[index] = null;
+
+                 inventory.add(new Potion_Orange(gp));
+
                  break;
          }
      }

@@ -27,11 +27,14 @@ public class KeyHandler implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
+
         if(code == KeyEvent.VK_I){
 
-            if (gp.gameState ==gp.characterState){
-                gp.gameState = gp.playState;
-            }else {gp.gameState = gp.characterState;}
+if (gp.gameState == gp.playState)
+            gp.gameState = gp.characterState;
+else {
+    gp.gameState=gp.playState;
+}
 
         }
         if(code == KeyEvent.VK_F){
@@ -41,6 +44,29 @@ public class KeyHandler implements KeyListener {
         if(code == KeyEvent.VK_SPACE){
             jump = true;
 
+        }
+        if (gp.gameState==gp.characterState){
+            if (code == KeyEvent.VK_W){
+                if (gp.ui.slotRow !=0){
+                gp.ui.slotRow--;}
+            }
+
+            if (code == KeyEvent.VK_A){
+                if (gp.ui.slotCol!=0){
+                gp.ui.slotCol--;}
+            }
+            if (code == KeyEvent.VK_S){
+                if (gp.ui.slotRow!=3){
+                gp.ui.slotRow++;}
+            }
+            if (code == KeyEvent.VK_D){
+                if (gp.ui.slotCol!=4){
+                gp.ui.slotCol++;}
+            }
+            if (code == KeyEvent.VK_ENTER){
+                gp.player.selectItem();
+
+            }
         }
 
         if(code == KeyEvent.VK_A){
@@ -84,14 +110,14 @@ public class KeyHandler implements KeyListener {
                 if (gp.ui.commandNum==1){
                     gp.level = 2;
                     gp.gameState = gp.playState;
-                    gp.tileM.getTileImage();
+                    gp.tileM.getTileImage2();
                     gp.tileM.loadMap();
 
                 }
                 if (gp.ui.commandNum==2){
                     gp.level = 3;
                     gp.gameState = gp.playState;
-                    gp.tileM.getTileImage();
+                    gp.tileM.getTileImage2();
                     gp.tileM.loadMap();
 
                 }

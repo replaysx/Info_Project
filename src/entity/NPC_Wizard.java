@@ -19,6 +19,8 @@ type = 1;
         getImage();
         maxLife = 10;
         life = maxLife;
+        attack = 5;
+        defense =0;
 
     }
     public void getImage(){
