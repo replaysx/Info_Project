@@ -45,8 +45,8 @@ public int realjumpspeed;
         screenX = gp.screenWidth/2;
         screenY = gp.screenHeight/2;
         solidArea = new Rectangle();
-        solidArea.x = 0;
-        solidArea.y = 60;
+        solidArea.x = 8;
+        solidArea.y = 125;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
         solidArea.width = 48;
@@ -323,7 +323,7 @@ public void pickUp(int index){
 
          switch (objectName) {
              case "Key":
-                // gp.playSE(1);
+                 gp.playSE(1);
                  if (inventory.size() !=maxInventorySize)
                  gp.obj[index] = null;
                  hasKey ++;
