@@ -53,10 +53,18 @@ public class AssetSetter {
         gp.obj[10] = new Potion_Orange(gp);
         gp.obj[10].worldX = 10* gp.tileSize;
         gp.obj[10].worldY = 8*gp.tileSize;
+
+        gp.obj[11] = new Chest();
+        gp.obj[11].worldX = 25* gp.tileSize;
+        gp.obj[11].worldY = 11*gp.tileSize;
     }
     public void setNPC(){
         gp.npc[0] = new NPC_Wizard(gp);
         gp.npc[0].worldX = 85* gp.tileSize ;
-        gp.npc[0].worldY = 6*gp.tileSize +8;
+        gp.npc[0].worldY = 7*gp.tileSize -70;
+
+        gp.npc[1] = new NPC_Wizard(gp);
+        gp.npc[1].worldX = 35* gp.tileSize ;
+        gp.npc[1].worldY = 11*gp.tileSize -70;
     }
 }

@@ -11,6 +11,8 @@ public class Entity {
     public int worldX,worldY;
     public int speed;
     public BufferedImage[] imageRight,imageLeft, jumpRight,jumpLeft,attackRight,attackLeft;
+    public Projectile projectile;
+    public boolean alive = true;
 
     public Rectangle attackArea = new Rectangle(0,0,0,0);
 
@@ -29,6 +31,8 @@ public class Entity {
     boolean attacking = false;
     public int animationCounter = 0;
     public int animationNum = 0;
+    public int shotAvailableCounter = 0;
+
 
 
     public int strength;
@@ -56,11 +60,7 @@ public class Entity {
       boolean contactPlayer = gp.cChecker.checkPlayer(this);
 
       if (this.type == 1 && contactPlayer == true){
-          if (gp.player.invincible == false){
-              int damage = attack - gp.player.defense;
-              gp.player.life = gp.player.life-damage ;
-              gp.player.invincible = true;
-          }
+          damagePlayer(attack);
       }
 
         spriteCounter++;
@@ -84,6 +84,17 @@ public class Entity {
                     break;
             }
         }
+        if (shotAvailableCounter<30){
+            shotAvailableCounter++;
+        }
+    }
+    public void damagePlayer(int attack){
+        if (gp.player.invincible == false){
+            int damage = attack - gp.player.defense;
+            gp.player.life = gp.player.life-damage ;
+            gp.player.invincible = true;
+        }
+
     }
     public void draw (Graphics2D g2) {
         BufferedImage image = null;
@@ -109,6 +120,18 @@ public class Entity {
         }
         g2.drawImage(image, screenX, screenY, gp.tileSize*2, gp.tileSize * 2, null);
 
+    }
+    public void checkDrop(){}
+    public void dropItem(SuperObject droppedIem){
+        for (int i = 0;i<gp.obj.length;i++){
+            if (gp.obj[i]==null){
+                gp.obj[i] = droppedIem;
+                gp.obj[i].worldX = worldX;
+                gp.obj[i].worldY = worldY;
+                break;
+
+            }
+        }
     }
 
 }

@@ -25,6 +25,8 @@ public class SuperObject {
     public final int type_weapon = 0;
     public final int type_shield = 1;
     public final int type_consumable = 2;
+
+    public final int type_pickUponly= 3;
     double verticaleMovement = 1;
     int realvertical;
     boolean rising = true;
@@ -52,4 +54,5 @@ public class SuperObject {
         }
         g2.drawImage(image,screenX,screenY,gp.tileSize, gp.tileSize, null);
     }
+
 }

@@ -88,6 +88,9 @@ public class UI {
             drawCharacterScreen();
             drawInventory();
         }
+        if (gp.gameState == gp.gameOverState){
+            drawGameOverScreen();
+        }
 
 
     }
@@ -153,6 +156,39 @@ public class UI {
 
 
     }
+    public void drawGameOverScreen(){
+        g2.setColor(new Color(0,0,0,150));
+        g2.fillRect(0,0,gp.screenWidth,gp.screenHeight);
+        int x ;
+        int y;
+        String text;
+        g2.setColor(Color.white);
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD,110F));
+        text = "Game Over";
+        x = getXforCenterText(text);
+        y = gp.tileSize*4;
+        g2.drawString(text,x,y);
+
+
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD,60F));
+        text = "Retry";
+        x= getXforCenterText(text);
+        y  += gp.tileSize*4;
+        g2.drawString(text,x,y);
+        if (commandNum==0){
+            g2.drawString(">",x-40,y);
+        }
+
+
+        text = "Back to Menu";
+        x= getXforCenterText(text);
+        y  += gp.tileSize*2;
+        g2.drawString(text,x,y);
+        if (commandNum==1){
+            g2.drawString(">",x-40,y);
+        }
+
+    }
     public void drawPauseScreen(){
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN,60F));
         String text = "PAUSED";
@@ -204,8 +240,21 @@ public class UI {
         int slotX = slotXstart;
         int slotY = slotYstart;
         int slotSize = gp.tileSize +3;
+        g2.setStroke(new BasicStroke(2));
+        for (int i =0; i<gp.player.maxInventorySize;i++) {
+            g2.setColor(Color.black);
+            g2.drawRoundRect(slotX, slotY, gp.tileSize, gp.tileSize, 10, 10);
+            slotX+=slotSize;
+            if (i==4||i==9||i==14){
+                slotX = slotXstart;
+                slotY += slotSize;
+            }
+        }
+        slotX = slotXstart;
+        slotY = slotYstart;
 
         for (int i = 0;i<gp.player.inventory.size();i++){
+
             if(gp.player.inventory.get(i) == gp.player.currentWeapon ||
                     gp.player.inventory.get(i) == gp.player.currentShield){
                 g2.setColor(gp.player.inventory.get(i).rarity);

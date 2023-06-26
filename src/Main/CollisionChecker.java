@@ -119,6 +119,7 @@ public class CollisionChecker {
                         entity.solidArea.x -= entity.speed;
 
 
+
                         if (entity.solidArea.intersects(gp.obj[i].solidArea)){
                             if (gp.obj[i].collision == true){
                                 entity.collisionon = true;

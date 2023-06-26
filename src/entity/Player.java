@@ -52,10 +52,10 @@ public int realjumpspeed;
         solidArea.width = 48;
         solidArea.height = 68;
         setDefaultValues();
-        getPlayerImage();
         setItems();
     }
 public void setDefaultValues(){
+
         worldX = 10;
         worldY = 0;
         speed = 4;
@@ -70,6 +70,7 @@ public void setDefaultValues(){
         attackRight = new BufferedImage[8];
         jumpLeft = new BufferedImage[3];
         jumpRight = new BufferedImage[8];
+    getPlayerImage();
         level = 1;
         strength =1;
         coin = 0;
@@ -102,6 +103,7 @@ public void selectItem(){
 }
 
 public void setItems(){
+        inventory.clear();
         inventory.add(currentWeapon);
     inventory.add(currentShield);
     inventory.add(new Key());
@@ -177,6 +179,7 @@ public void getPlayerImage(){
             e.printStackTrace();
         }
 }
+
 public void update() {
         if (keyH.enterPressed == true){
             attacking = true;
@@ -258,7 +261,9 @@ else {
             }
         }
     }
-
+if (life<=0){
+    gp.gameState = gp.gameOverState;
+}
 
 }
 public void attacking(){
@@ -311,6 +316,7 @@ public void damageMonster(int i){
            damage =0;
 
            if (gp.npc[i].life <=0){
+               gp.npc[i].checkDrop();
                gp.npc[i] = null;
            }
        }
@@ -353,6 +359,10 @@ public void pickUp(int index){
                  inventory.add(new Potion_Orange(gp));
 
                  break;
+             case "Coin":
+                 gp.obj[index].use();
+                 gp.obj[index]=null;
+
          }
      }
 }

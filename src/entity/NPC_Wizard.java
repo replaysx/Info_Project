@@ -1,6 +1,10 @@
 package entity;
 
 import Main.GamePanel;
+import object.Coin;
+import object.Heal;
+import object.Potion_Orange;
+import object.Projectile_Rock;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -8,9 +12,10 @@ import java.io.IOException;
 import java.util.Random;
 
 public class NPC_Wizard extends Entity{
+    GamePanel gp;
     public NPC_Wizard(GamePanel gp){
         super(gp);
-
+this.gp = gp;
 type = 1;
         direction = "left";
         speed = 2;
@@ -21,6 +26,7 @@ type = 1;
         life = maxLife;
         attack = 5;
         defense =0;
+        projectile = new Projectile_Rock(gp);
 
     }
     public void getImage(){
@@ -69,8 +75,25 @@ type = 1;
             }
             actionLockCounter = 0;
         }
+        int i = new Random().nextInt(100)+1;
+        if (i>=99 && projectile.alive == false && shotAvailableCounter == 30){
+            projectile.set(worldX,worldY,direction,true);
+            gp.projectileList.add(projectile);
+            shotAvailableCounter = 0;
+        }
     }
 
+    @Override
+    public void checkDrop() {
 
-
+        int i = new Random().nextInt(3)+1;
+        switch (i){
+            case 1: dropItem(new Coin(gp));
+            break;
+            case 2: dropItem(new Potion_Orange(gp));
+                break;
+            case 3: dropItem(new Heal());
+                break;
+        }
+    }
 }
