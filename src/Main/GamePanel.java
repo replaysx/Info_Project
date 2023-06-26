@@ -8,7 +8,6 @@ import object.SuperObject;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable{
     final int originalTileSize =16;
@@ -21,7 +20,6 @@ public class GamePanel extends JPanel implements Runnable{
 
     public final int maxWorldCol = 250;
     public final int maxWorldRow = 50;
-    public ArrayList<Entity>  projectileList = new ArrayList<>();
 
     public final int worldWidth = tileSize * maxWorldCol;
     public final int worldHeight = tileSize * maxWorldRow;
@@ -52,7 +50,6 @@ public class GamePanel extends JPanel implements Runnable{
     public final int pauseState =2;
 
     public final int levelState = 3;
-    public final int gameOverState =6;
 
 
 
@@ -70,13 +67,6 @@ public class GamePanel extends JPanel implements Runnable{
         aSet.setNPC();
         gameState=titleState;
         playMusic(2);
-    }
-    public void restart(){
-        player.setDefaultValues();
-        player.setItems();
-        aSet.setObject();
-        aSet.setNPC();
-
     }
 
     public void startGameThread(){
@@ -131,16 +121,6 @@ public class GamePanel extends JPanel implements Runnable{
                     npc[i].update();
                 }
             }
-            for (int i = 0; i < projectileList.size(); i++) {
-                if (projectileList.get(i) != null) {
-                    if (projectileList.get(i).alive == true){
-                        projectileList.get(i).update();
-                    }else{
-                        projectileList.remove(i);
-                    }
-
-                }
-            }
 
         }
         if (gameState == pauseState){
@@ -169,11 +149,6 @@ public class GamePanel extends JPanel implements Runnable{
             for (int i = 0; i < npc.length; i++) {
                 if (npc[i] != null) {
                     npc[i].draw(g2);
-                }
-            }
-            for (int i = 0; i < projectileList.size(); i++) {
-                if (projectileList.get(i) != null) {
-                    projectileList.get(i).draw(g2);
                 }
             }
             player.draw(g2);

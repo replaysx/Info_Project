@@ -128,14 +128,14 @@ else {
                 if (gp.ui.commandNum==1){
                     gp.level = 2;
                     gp.gameState = gp.playState;
-                    gp.tileM.getTileImage2();
+                    //gp.tileM.getTileImage2();
                     gp.tileM.loadMap();
 
                 }
                 if (gp.ui.commandNum==2){
                     gp.level = 3;
                     gp.gameState = gp.playState;
-                    gp.tileM.getTileImage2();
+                    //gp.tileM.getTileImage2();
                     gp.tileM.loadMap();
 
                 }
