@@ -28,10 +28,7 @@ public class Projectile_Rock extends Projectile {
     }
     public  void getImage(){
         try {
-           /* for (int i = 0;i<13;i++){
-                imageRight[i]= ImageIO.read(getClass().getResourceAsStream("/playerImages/shield_wood.png"));
-                imageLeft[i] = ImageIO.read(getClass().getResourceAsStream("/playerImages/shield_wood.png"));
-            }*/
+
 
             imageRight[0] = ImageIO.read(getClass().getResourceAsStream("/playerImages/shield_wood.png"));
             imageRight[1] = ImageIO.read(getClass().getResourceAsStream("/playerImages/shield_wood.png"));

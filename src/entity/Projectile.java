@@ -7,7 +7,6 @@ import java.awt.image.BufferedImage;
 
 public class Projectile extends Entity{
 
-    Entity user;
     public Projectile(GamePanel gp){
         super(gp);
 
@@ -24,20 +23,21 @@ public class Projectile extends Entity{
         boolean contactPlayer = gp.cChecker.checkPlayer(this);
         if (gp.player.invincible == false && contactPlayer == true){
             damagePlayer(attack);
-
+            gp.projectileList.remove(projectile);
             alive = false;
         }
 
         switch (direction){
             case "right": worldX += speed;
             break;
-            case "left": worldY -= speed;
+            case "left": worldX -= speed;
                 break;
         }
         life --;
         if (life <= 0){
-            alive = false;
+            gp.projectileList.remove(projectile);
         }
+        alive = false;
     }
 
 

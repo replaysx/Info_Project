@@ -13,11 +13,10 @@ public class Coin extends SuperObject {
         this.gp = gp;
         name = "Coin";
         try {
-            image = ImageIO.read(getClass().getResourceAsStream("/objects#/Orange.png"));
+            image = ImageIO.read(getClass().getResourceAsStream("/objects#/pngwing.com.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        description = "[" + name + "] \nDas ist ein Heiltrank";
         type = type_pickUponly;
     }
 public int value = 1;

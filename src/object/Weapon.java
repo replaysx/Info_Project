@@ -12,18 +12,18 @@ GamePanel gp;
     public Weapon(GamePanel gp){
 
 this.gp = gp;
-        name = "DefaultSword";
+        name = "Rare Sword";
         try {
             image = ImageIO.read(getClass().getResourceAsStream("/playerImages/sword_normal.png"));
         }
         catch (IOException e){
             e.printStackTrace();
         }
-        attackValue = 1;
+        attackValue = 2;
         description = "["+name+"] \nDas ist ein Schwert";
         attackWidth = 36;
         attackHeight = 36;
-        rarity = new Color(0, 255, 72);
         type = type_weapon;
+        rarity = rare;
     }
 }

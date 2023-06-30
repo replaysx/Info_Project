@@ -3,29 +3,29 @@ package Main;
 import Tile.TileManager;
 import entity.Entity;
 import entity.Player;
+import entity.Shop;
 import object.SuperObject;
 
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable{
     final int originalTileSize =16;
-    final int scale = 3;
-    public final int tileSize = originalTileSize * scale;
-    public final int maxScreenCol = 16;
+    final double scale = 3;
+    public final int tileSize =  (int)(originalTileSize * scale);
+    public final int maxScreenCol = 21;
     public final int maxScreenRow= 12;
     public final int screenWidth = tileSize * maxScreenCol;
     public final  int screenHeight = tileSize * maxScreenRow;
-
     public final int maxWorldCol = 250;
     public final int maxWorldRow = 50;
 
-    public final int worldWidth = tileSize * maxWorldCol;
-    public final int worldHeight = tileSize * maxWorldRow;
 
     int FPS = 60;
-    TileManager tileM = new TileManager(this);
+    public TileManager tileM = new TileManager(this);
    public KeyHandler keyH = new KeyHandler(this);
     Thread gameThread;
     public CollisionChecker cChecker =new CollisionChecker(this);
@@ -50,6 +50,10 @@ public class GamePanel extends JPanel implements Runnable{
     public final int pauseState =2;
 
     public final int levelState = 3;
+    public int tradeState = 5;
+    public final int gameOverState=6;
+    public final int chestState = 7;
+    public ArrayList<Entity> projectileList = new ArrayList<>();
 
 
 
@@ -67,6 +71,8 @@ public class GamePanel extends JPanel implements Runnable{
         aSet.setNPC();
         gameState=titleState;
         playMusic(2);
+
+
     }
 
     public void startGameThread(){
@@ -74,6 +80,12 @@ public class GamePanel extends JPanel implements Runnable{
         gameThread.start();
 
 
+    }
+    public void restart(){
+        aSet.setObject();
+        aSet.setNPC();
+        player.setDefaultValues();
+        player.setItems();
     }
     @Override
     public void run() {
@@ -110,6 +122,7 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
 
+
     public void update(){
         if (gameState == playState){
 
@@ -121,18 +134,24 @@ public class GamePanel extends JPanel implements Runnable{
                     npc[i].update();
                 }
             }
+            obj[12].update();
 
         }
         if (gameState == pauseState){
             stopMusic(2);
         }
+        for (int i = 0; i < obj.length; i++) {
+            if (obj[i] != null) {
+                obj[i].update();
+            }
+        }
 
 
 
     }
+
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         Graphics2D g2 = (Graphics2D) g;
         if (gameState == levelState) {
             ui.draw(g2);
@@ -154,6 +173,7 @@ public class GamePanel extends JPanel implements Runnable{
             player.draw(g2);
             levelbar.draw(g2);
             ui.draw(g2);
+
         }
 
         //Title Screen

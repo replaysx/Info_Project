@@ -5,7 +5,7 @@ import java.awt.*;
 public class LevelBar {
     GamePanel gp;
 
-    Rectangle levelbar;
+
 
     int rectanglex;
     public LevelBar(GamePanel gp){
@@ -19,8 +19,10 @@ if (rectanglex >= 320){
 }
     }
     public void draw(Graphics2D g2){
-        g2.drawRect(gp.screenWidth/2 - 160,50,320,20);
+        g2.setStroke(new BasicStroke(4));
+        g2.setColor(Color.black);
+        g2.drawRect(gp.screenWidth/2-2 - 160,48,324,29);
         g2.setColor(Color.red);
-        g2.fillRect(gp.screenWidth/2 - 160,50,rectanglex,20);
+        g2.fillRect(gp.screenWidth/2 - 160,50,rectanglex,25);
     }
 }

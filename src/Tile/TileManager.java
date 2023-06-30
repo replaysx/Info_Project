@@ -30,7 +30,7 @@ public class TileManager {
 
      public void loadMap(){
          switch (gp.level){
-             case 1: level = "/Map/World.txt";
+             case 1: level = "/Map/MapDemo.txt";
              break;
              case 2: level = "/Map/World2.txt";
                  break;

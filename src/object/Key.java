@@ -7,6 +7,7 @@ import java.io.IOException;
 public class Key extends  SuperObject{
     public Key(){
         name = "Key";
+        stackable = true;
 
         try {
             image = ImageIO.read(getClass().getResourceAsStream("/objects#/pixil-frame-0(2).png"));
@@ -14,7 +15,7 @@ public class Key extends  SuperObject{
         catch (IOException e){
             e.printStackTrace();
     }
-    description = "["+name+"] \nDas ist ein Schwert";
+    description = "["+name+"] \n You need Keys \nto open chests";
         type = type_consumable;
     }
 }

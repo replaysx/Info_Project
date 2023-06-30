@@ -17,8 +17,8 @@ public class Player extends Entity{
     KeyHandler keyH;
     public final int screenY;
     public final int screenX;
-   public int hasKey = 0;
    public boolean invincible;
+   public boolean guard = false;
    public int invincibleCounter;
    public int damage = 1;
 
@@ -26,16 +26,14 @@ public class Player extends Entity{
    public final int maxInventorySize = 20;
     public SuperObject currentWeapon;
     public SuperObject currentShield;
-
-
-
-
-
-
+    public int shieldCounter;
+    public int shieldNum;
 public int realjumpspeed;
     public double jumpspeed;
     double gravityspeed;
-
+    public boolean moving = false;
+    public int idleCounter=0;
+    public int idleNum = 0;
 
 
     public Player(GamePanel gp,KeyHandler keyH){
@@ -46,17 +44,17 @@ public int realjumpspeed;
         screenY = gp.screenHeight/2;
         solidArea = new Rectangle();
         solidArea.x = 8;
-        solidArea.y = 125;
+        solidArea.y = 0;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
         solidArea.width = 48;
-        solidArea.height = 68;
+        solidArea.height = 52;
         setDefaultValues();
         setItems();
     }
 public void setDefaultValues(){
 
-        worldX = 10;
+        worldX = 1000;
         worldY = 0;
         speed = 4;
         direction = "right";
@@ -70,12 +68,16 @@ public void setDefaultValues(){
         attackRight = new BufferedImage[8];
         jumpLeft = new BufferedImage[3];
         jumpRight = new BufferedImage[8];
-    getPlayerImage();
+        shieldLeft = new BufferedImage[2];
+        shieldRight = new BufferedImage[2];
+        idleRight = new BufferedImage[6];
+        idleLeft = new BufferedImage[6];
+        getPlayerImage();
         level = 1;
         strength =1;
         coin = 0;
 
-        currentWeapon = new Weapon(gp);
+        currentWeapon = new Sword_Wood(gp);
         currentShield = new Shield(gp);
         attack = getAttack();
         defense = getDefense();
@@ -87,6 +89,8 @@ public void selectItem(){
         if (itemIndex <inventory.size()){
             SuperObject selectedItem = inventory.get(itemIndex);
             if (selectedItem.type == currentWeapon.type_weapon){
+                inventory.remove(itemIndex);
+                inventory.add(currentWeapon);
                 currentWeapon = selectedItem;
                 attack = getAttack();
             }
@@ -95,8 +99,13 @@ public void selectItem(){
                 defense = getDefense();
             }
             if (selectedItem.type == currentShield.type_consumable){
-                selectedItem.use();
-                inventory.remove(itemIndex);
+                if (gp.player.life != 0){
+                    selectedItem.use();
+                    if (selectedItem.amount > 1 ){
+                        selectedItem.amount --;
+                    }else{
+                        inventory.remove(itemIndex);}
+                }
             }
 
         }
@@ -104,18 +113,7 @@ public void selectItem(){
 
 public void setItems(){
         inventory.clear();
-        inventory.add(currentWeapon);
-    inventory.add(currentShield);
-    inventory.add(new Key());
-    inventory.add(new Key());
-    inventory.add(new Key());
-    inventory.add(new Key());
-    inventory.add(new Key());
-    inventory.add(new Key());
-    inventory.add(new Key());
-    inventory.add(new Key());
-    inventory.add(new Key());
-    inventory.add(new Key());
+
 }
 public int getAttack(){
     attackArea.width = currentWeapon.attackWidth;
@@ -164,15 +162,30 @@ public void getPlayerImage(){
             attackLeft[6] = ImageIO.read(getClass().getResourceAsStream("/playerImages/attacL (7).png"));
             attackLeft[7] = ImageIO.read(getClass().getResourceAsStream("/playerImages/attacL (8).png"));
 
-            jumpRight[0] = ImageIO.read(getClass().getResourceAsStream("/playerImages/jump.png"));
             jumpRight[1] = ImageIO.read(getClass().getResourceAsStream("/playerImages/midair.png"));
-            jumpRight[2] = ImageIO.read(getClass().getResourceAsStream("/playerImages/fall.png"));
 
-            jumpLeft[0] = ImageIO.read(getClass().getResourceAsStream("/playerImages/jumpL.png"));
             jumpLeft[1] = ImageIO.read(getClass().getResourceAsStream("/playerImages/midairL.png"));
-            jumpLeft[2] = ImageIO.read(getClass().getResourceAsStream("/playerImages/fallL.png"));
 
 
+            shieldRight[0] = ImageIO.read(getClass().getResourceAsStream("/playerImages/shield2.png"));
+            shieldRight[1] = ImageIO.read(getClass().getResourceAsStream("/playerImages/shield3.png"));
+
+            shieldLeft[0] = ImageIO.read(getClass().getResourceAsStream("/playerImages/shieldL2.png"));
+            shieldLeft[1] = ImageIO.read(getClass().getResourceAsStream("/playerImages/shieldL3.png"));
+
+            idleRight[0] = ImageIO.read(getClass().getResourceAsStream("/playerImages/idle1.png"));
+            idleRight[1] = ImageIO.read(getClass().getResourceAsStream("/playerImages/idle2.png"));
+            idleRight[2] = ImageIO.read(getClass().getResourceAsStream("/playerImages/idle3.png"));
+            idleRight[3] = ImageIO.read(getClass().getResourceAsStream("/playerImages/idle4.png"));
+            idleRight[4] = ImageIO.read(getClass().getResourceAsStream("/playerImages/idle5.png"));
+            idleRight[5] = ImageIO.read(getClass().getResourceAsStream("/playerImages/idle6.png"));
+
+            idleLeft[0] = ImageIO.read(getClass().getResourceAsStream("/playerImages/idleL1.png"));
+            idleLeft[1] = ImageIO.read(getClass().getResourceAsStream("/playerImages/idleL2.png"));
+            idleLeft[2] = ImageIO.read(getClass().getResourceAsStream("/playerImages/idleL3.png"));
+            idleLeft[3] = ImageIO.read(getClass().getResourceAsStream("/playerImages/idleL4.png"));
+            idleLeft[4] = ImageIO.read(getClass().getResourceAsStream("/playerImages/idleL5.png"));
+            idleLeft[5] = ImageIO.read(getClass().getResourceAsStream("/playerImages/idleL6.png"));
 
 
         }catch (IOException e){
@@ -181,6 +194,20 @@ public void getPlayerImage(){
 }
 
 public void update() {
+        if (guard == true){
+            speed =0;
+            shieldCounter++;
+            if (shieldCounter > 8) {
+                if (shieldNum == 1){
+                    shieldNum = 0;
+                }
+                if (shieldNum == 0){
+                    shieldNum = 1;
+                }
+                shieldCounter = 0;}
+        }else {
+            speed = 4;
+        }
         if (keyH.enterPressed == true){
             attacking = true;
         }
@@ -188,6 +215,15 @@ public void update() {
 
             attacking();
         }else {damage =1;}
+    idleCounter++;
+    if (idleCounter > 4) {
+        if (idleNum == 5){
+            idleNum = 0;
+        }
+        idleNum ++;
+        idleCounter = 0;
+
+    }
         int objIndex = gp.cChecker.checkObject(this,true);
     pickUp(objIndex);
 gp.cChecker.checkisgrounded(this);
@@ -217,14 +253,9 @@ else {
 }
 
 
-    if (keyH.leftPressed || keyH.rightPressed || keyH.upPressed || keyH.downPressed ) {
-        if (keyH.upPressed) {
-            direction = "up";
-
-        } else if (keyH.downPressed && isgrounded ==true) {
-            direction = "down";
-
-        } else if (keyH.leftPressed) {
+    if (keyH.leftPressed || keyH.rightPressed ) {
+        moving = true;
+        if (keyH.leftPressed) {
 
             direction = "left";
         } else if (keyH.rightPressed) {
@@ -243,9 +274,9 @@ else {
         }
 
 
+
         collisionon =false;
-        int npcIndex = gp.cChecker.checkEntity(this,gp.npc);
-        interactNPC(npcIndex);
+        gp.cChecker.checkEntity(this,gp.npc);
         gp.cChecker.checkTile(this);
         objIndex = gp.cChecker.checkObject(this,true);
         pickUp(objIndex);
@@ -260,11 +291,46 @@ else {
                     break;
             }
         }
-    }
+    }else{
+        moving = false;}
+
 if (life<=0){
     gp.gameState = gp.gameOverState;
 }
 
+}
+public int searchItemInInventory(String itemName){
+      int itemIndex =999;
+    for (int i = 0; i < gp.player.inventory.size(); i++) {
+        if (inventory.get(i).name == itemName){
+            itemIndex = i;
+            break;
+        }
+    }
+    return itemIndex;
+}
+public boolean canObtainItem(SuperObject item){
+        boolean canObtain = false;
+        if (item.stackable == true){
+            int index = searchItemInInventory(item.name);
+
+            if (index!=999){
+                inventory.get(index).amount++;
+                canObtain = true;
+            }
+            else {
+                if (inventory.size() != maxInventorySize){
+                    inventory.add(item);
+                    canObtain = true;
+                }
+            }
+        }else{
+            if (inventory.size() != maxInventorySize){
+                inventory.add(item);
+                canObtain = true;
+            }
+        }
+        return canObtain;
 }
 public void attacking(){
     int currentWorldX = worldX;
@@ -299,16 +365,7 @@ public void attacking(){
             animationCounter = 0;
         }
 }
-public void interactNPC(int i){
-        if (i!=999){
-            if (invincible == false){
-                int damage = gp.npc[i].attack -defense;
-                life = life-damage ;
-                invincible = true;
-            }
-        }
 
-}
 public void damageMonster(int i){
        if (i!=999){
            damage = attack;
@@ -330,21 +387,9 @@ public void pickUp(int index){
          switch (objectName) {
              case "Key":
                  gp.playSE(1);
-                 if (inventory.size() !=maxInventorySize)
+                 canObtainItem(gp.obj[index]);
                  gp.obj[index] = null;
-                 hasKey ++;
-                 inventory.add(new Key());
-                 break;
-             case "Chest":
-                 if (hasKey > 0){
-                     hasKey --;
-                     gp.obj[index] = null;
-                 }
-                 break;
-             case "heal":
 
-                     gp.obj[index] = null;
-                 life = maxLife;
                  break;
              case "LavaPit":
                  if (invincible == false){
@@ -352,73 +397,74 @@ public void pickUp(int index){
                      invincible = true;
                  }
                  break;
-             case "OrangeJuice":
-                 if (inventory.size() !=maxInventorySize)
-                     gp.obj[index] = null;
-
-                 inventory.add(new Potion_Orange(gp));
-
+             case "OrangeJuice", "DefaultSword":
+                 canObtainItem(gp.obj[index]);
+                 gp.obj[index] = null;
                  break;
              case "Coin":
                  gp.obj[index].use();
                  gp.obj[index]=null;
+                 break;
+
 
          }
      }
 }
 public void draw(Graphics2D g2){
     BufferedImage image = null;
+
+
     switch(direction){
 
-        case "right": if (isgrounded==false){
+        case "right": if ((isgrounded==false  && gravityspeed > 0.6) || keyH.jump == true){
             image = jumpRight[1];
 
-          /*  if (realjumpspeed > 5){
-                image = jumpRight[0];
-            }
-            if (realjumpspeed > -5 && realjumpspeed < 5){
-                image = jumpRight[1];
-            }
-            if (realjumpspeed < -5){
-                image = jumpRight[2];
-            } */
 
-        }else{
+        }else if (guard==true) {
+            image = shieldRight[shieldNum];
+        }else
             if (attacking == false){
-            image = imageRight[spriteNum-1];
+                if (moving == true){
+                    image = imageRight[spriteNum-1];
+                }
+                else {
+                    image = idleRight[idleNum];
+                }
+
         }else {
             image = attackRight[animationNum-1];
         }
-        }
+
 
             break;
         case "left":
-            if (isgrounded==false){
+            if ((isgrounded==false  && gravityspeed > 0.6) || keyH.jump == true){
 
                 image = jumpRight[1];
-                    /* if (realjumpspeed > 5) {
-                        image = jumpRight[0];
-                    }
-                    if (realjumpspeed > -5 && realjumpspeed < 5) {
-                        image = jumpRight[1];
-                    }
-                    if (realjumpspeed < -5) {
-                        image = jumpRight[2];
-                   } */
 
 
-            }else {
+            }else if (guard==true) {
+                image = shieldLeft[shieldNum];
+            }
+               else if (attacking == false) {
+                if (moving == true){
+                    image = imageLeft[spriteNum-1];
+                }
+                else {
+                    image = idleLeft[idleNum];
+                }
 
-                if (attacking == false) {
-                    image = imageLeft[spriteNum - 1];
                 } else {
                     image = attackLeft[animationNum - 1];
                 }
-            }
+
 
             break;
     }
     g2.drawImage(image, screenX, screenY, gp.tileSize*2,gp.tileSize*2, null);
+
+
+
 
 }
 

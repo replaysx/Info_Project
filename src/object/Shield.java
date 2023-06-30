@@ -12,6 +12,7 @@ public class Shield extends SuperObject {
     public Shield(GamePanel gp){
         this.gp = gp;
         name = "DefaultSword";
+        rarityType = "Legendary";
         try {
             image = ImageIO.read(getClass().getResourceAsStream("/playerImages/shield_wood.png"));
         }
@@ -19,8 +20,9 @@ public class Shield extends SuperObject {
             e.printStackTrace();
         }
         defenseValue = 1;
+        coinValue = 10;
+        rarity = legendary;
         description = "["+name+"]\n Das ist ein Schwert";
-        rarity = new Color(255, 211, 0);
         type = type_shield;
     }
 }
