@@ -163,19 +163,22 @@ else {
 
 
         }
-        if (gp.gameState== gp.gameOverState){
+        /*if (gp.gameState== gp.gameOverState){
             if (code == KeyEvent.VK_W){
                 gp.ui.commandNum--;
                 if (gp.ui.commandNum<0){
                     gp.ui.commandNum=1;
                 }
             }
+
+         */
             if (code == KeyEvent.VK_S){
                 gp.ui.commandNum++;
                 if (gp.ui.commandNum>1){
                     gp.ui.commandNum=0;
                 }
             }
+            /*
             if (code == KeyEvent.VK_ENTER){
                 if (gp.ui.commandNum ==0){
                     gp.gameState = gp.playState;
@@ -186,7 +189,11 @@ else {
                     gp.restart();
                 }
             }
+
+
         }
+
+             */
         if (gp.gameState == gp.levelState){
             if(code == KeyEvent.VK_S){
                 gp.ui.commandNum++;

@@ -34,7 +34,7 @@ public class GamePanel extends JPanel implements Runnable{
     public UI ui = new UI(this);
     public EventHandler eHandler = new EventHandler(this);
 
-    Sound sound = new Sound();
+    public Sound sound = new Sound();
     public Player player = new Player(this,keyH);
     public SuperObject obj[] = new SuperObject[20];
     public Entity npc[] = new Entity[10];
@@ -137,9 +137,10 @@ public class GamePanel extends JPanel implements Runnable{
             obj[12].update();
 
         }
-        if (gameState == pauseState){
+        if (gameState == pauseState) {
             stopMusic(2);
         }
+
         for (int i = 0; i < obj.length; i++) {
             if (obj[i] != null) {
                 obj[i].update();
@@ -155,6 +156,7 @@ public class GamePanel extends JPanel implements Runnable{
         Graphics2D g2 = (Graphics2D) g;
         if (gameState == levelState) {
             ui.draw(g2);
+
         }
         if (gameState != titleState && gameState != levelState) {
             //Tile
@@ -173,6 +175,7 @@ public class GamePanel extends JPanel implements Runnable{
             player.draw(g2);
             levelbar.draw(g2);
             ui.draw(g2);
+
 
         }
 

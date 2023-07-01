@@ -3,6 +3,7 @@ package entity;
 
 import Main.GamePanel;
 import Main.KeyHandler;
+import Main.Sound;
 import object.*;
 
 import javax.imageio.ImageIO;
@@ -22,6 +23,7 @@ public class Player extends Entity{
    public int invincibleCounter;
    public int damage = 1;
 
+   public Sound sound = new Sound();
    public ArrayList<SuperObject> inventory = new ArrayList<>();
    public final int maxInventorySize = 20;
     public SuperObject currentWeapon;
@@ -294,9 +296,7 @@ else {
     }else{
         moving = false;}
 
-if (life<=0){
-    gp.gameState = gp.gameOverState;
-}
+
 
 }
 public int searchItemInInventory(String itemName){
@@ -375,6 +375,8 @@ public void damageMonster(int i){
            if (gp.npc[i].life <=0){
                gp.npc[i].checkDrop();
                gp.npc[i] = null;
+               playSE(4);
+
            }
        }
 
@@ -402,9 +404,11 @@ public void pickUp(int index){
                  gp.obj[index] = null;
                  break;
              case "Coin":
+                 gp.playSE(3);
                  gp.obj[index].use();
                  gp.obj[index]=null;
                  break;
+
 
 
          }
@@ -467,6 +471,12 @@ public void draw(Graphics2D g2){
 
 
 }
+    public void playSE (int i){
+        sound.setFile(i);
+        sound.play();
+    }
+
+
 
 
 }
