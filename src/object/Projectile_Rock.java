@@ -15,13 +15,13 @@ public class Projectile_Rock extends Projectile {
         this.gp = gp;
 
         name = "Rock";
-        speed = 5;
-        maxLife = 80;
+        speed = 3;
+        maxLife = 800;
         life = maxLife;
-        attack = 2;
+        attack = 5;
         alive = false;
-        imageLeft = new BufferedImage[13];
-        imageRight = new BufferedImage[13];
+        imageLeft = new BufferedImage[2];
+        imageRight = new BufferedImage[2];
         getImage();
 
 
@@ -30,32 +30,12 @@ public class Projectile_Rock extends Projectile {
         try {
 
 
-            imageRight[0] = ImageIO.read(getClass().getResourceAsStream("/playerImages/shield_wood.png"));
-            imageRight[1] = ImageIO.read(getClass().getResourceAsStream("/playerImages/shield_wood.png"));
-            imageRight[2] = ImageIO.read(getClass().getResourceAsStream("/playerImages/shield_wood.png"));
-            imageRight[3] = ImageIO.read(getClass().getResourceAsStream("/playerImages/shield_wood.png"));
-            imageRight[4] = ImageIO.read(getClass().getResourceAsStream("/playerImages/shield_wood.png"));
-            imageRight[5] = ImageIO.read(getClass().getResourceAsStream("/playerImages/shield_wood.png"));
-            imageRight[6] = ImageIO.read(getClass().getResourceAsStream("/playerImages/shield_wood.png"));
-            imageRight[7] = ImageIO.read(getClass().getResourceAsStream("/playerImages/shield_wood.png"));
-            imageRight[8] = ImageIO.read(getClass().getResourceAsStream("/playerImages/shield_wood.png"));
-            imageRight[9] = ImageIO.read(getClass().getResourceAsStream("/playerImages/shield_wood.png"));
-            imageRight[10] = ImageIO.read(getClass().getResourceAsStream("/playerImages/shield_wood.png"));
-            imageRight[11] = ImageIO.read(getClass().getResourceAsStream("/playerImages/shield_wood.png"));
-            imageRight[12] = ImageIO.read(getClass().getResourceAsStream("/playerImages/shield_wood.png"));
-            imageLeft [0] = ImageIO.read(getClass().getResourceAsStream("/playerImages/shield_wood.png"));
-            imageLeft [1] = ImageIO.read(getClass().getResourceAsStream("/playerImages/shield_wood.png"));
-            imageLeft [2] = ImageIO.read(getClass().getResourceAsStream("/playerImages/shield_wood.png"));
-            imageLeft [3] = ImageIO.read(getClass().getResourceAsStream("/playerImages/shield_wood.png"));
-            imageLeft [4] = ImageIO.read(getClass().getResourceAsStream("/playerImages/shield_wood.png"));
-            imageLeft [5] = ImageIO.read(getClass().getResourceAsStream("/playerImages/shield_wood.png"));
-            imageLeft [6] = ImageIO.read(getClass().getResourceAsStream("/playerImages/shield_wood.png"));
-            imageLeft [7] = ImageIO.read(getClass().getResourceAsStream("/playerImages/shield_wood.png"));
-            imageLeft [8] = ImageIO.read(getClass().getResourceAsStream("/playerImages/shield_wood.png"));
-            imageLeft [9] = ImageIO.read(getClass().getResourceAsStream("/playerImages/shield_wood.png"));
-            imageLeft [10] = ImageIO.read(getClass().getResourceAsStream("/playerImages/shield_wood.png"));
-            imageLeft [11] = ImageIO.read(getClass().getResourceAsStream("/playerImages/shield_wood.png"));
-            imageLeft [12] = ImageIO.read(getClass().getResourceAsStream("/playerImages/shield_wood.png"));
+            imageRight[0] = ImageIO.read(getClass().getResourceAsStream("/WizardImages/Projectile1.png"));
+            imageRight[1] = ImageIO.read(getClass().getResourceAsStream("/WizardImages/Projectile2.png"));
+            imageLeft[0] = ImageIO.read(getClass().getResourceAsStream("/WizardImages/ProjectileL1.png"));
+            imageLeft[1] = ImageIO.read(getClass().getResourceAsStream("/WizardImages/ProjectileL2.png"));
+
+
 
         }
         catch (IOException e){

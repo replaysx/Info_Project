@@ -15,7 +15,8 @@ public class Key extends  SuperObject{
         catch (IOException e){
             e.printStackTrace();
     }
-    description = "["+name+"] \n You need Keys \nto open chests";
+    description = "["+name+"] \nYou need Keys \nto open chests";
+        coinValue = 3;
         type = type_consumable;
     }
 }

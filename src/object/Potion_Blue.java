@@ -13,8 +13,8 @@ public class Potion_Blue extends SuperObject{
     public Potion_Blue(GamePanel gp){
 
         this.gp = gp;
-        name = "Advanced Healing Potion";
-        coinValue = 5;
+        name = "Full Healing Potion";
+        coinValue = 10;
         stackable = true;
         rarity = legendary;
 
@@ -26,7 +26,7 @@ public class Potion_Blue extends SuperObject{
         catch (IOException e){
             e.printStackTrace();
         }
-        description = "["+name+"] \n +25% speed \n +25% attack";
+        description = "["+name+"] \nFull Heal";
         type = type_consumable;
     }
     public void use(){

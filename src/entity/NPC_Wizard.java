@@ -1,10 +1,7 @@
 package entity;
 
 import Main.GamePanel;
-import object.Coin;
-import object.Heal;
-import object.Potion_Orange;
-import object.Projectile_Rock;
+import object.*;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -28,7 +25,7 @@ type = 1;
         getAttackImage();
         maxLife = 10;
         life = maxLife;
-        attack = 2;
+        attack = 5;
         defense =0;
         projectile = new Projectile_Rock(gp);
 
@@ -116,11 +113,11 @@ type = 1;
 
     }
     public void setAction(){
-        if (attackAvailableCounter<1000){
+        if (attackAvailableCounter<400){
             attackAvailableCounter++;
         }
 
-        int distanceX = gp.player.worldX - worldX;
+        int distanceX = gp.player.worldX - this.worldX;
         if (attacking == true){
             if (direction == "right"){
                 solidArea.x += attackArea.width;
@@ -139,52 +136,48 @@ type = 1;
             if (distanceX > 0){
                 direction = "right";
             }
-            if (distanceX <=100 && distanceX >= -100 && attackAvailableCounter == 1000){
+            if (distanceX <=100 && distanceX >= -100 && attackAvailableCounter == 400){
                 attacking = true;
                 attackAvailableCounter =0;
             }
 
 
+        }
+        if (attacking==true){
+            animationCounter ++;
+            if (animationCounter > 4){
+                if (animationNum == 17){
+                    attacking = false;
+                    animationNum =0;
 
-            int i = new Random().nextInt(100) + 1;
-            /* if (i >= 1 && projectile.alive == false && shotAvailableCounter == 30) {
-                System.out.println("!!!!!!!!!!!!!!!!!!");
-                projectile.set(worldX, worldY, direction, true);
-                projectile.alive = false;
-                gp.projectileList.add(projectile);
-                shotAvailableCounter = 0;
-            }*/
-        }else {
+                }animationNum ++;
+                animationCounter = 0;
+            }
 
 
-          /*  actionLockCounter++;
-            if (actionLockCounter == 120) {
-                Random random = new Random();
-                int i = random.nextInt(100) + 1;
-                if (i < 50) {
-                    direction = "right";
-                }
-                if (i >= 50) {
-                    direction = "left";
-                }
-                actionLockCounter = 0;
-            }*/
+        }
+        spriteCounter++;
+        if (spriteCounter > 5) {
+            if (spriteNum == 13){
+                spriteNum = 0;
+            }
+            spriteNum ++;
+            spriteCounter = 0;
 
+        }
+        if (collisionon == false && attacking == false && distanceX <= 200 && distanceX >=-200){
+            switch (direction){
+                case"right":
+                    worldX = worldX + speed;
+                    break;
+                case"left":
+                    worldX = worldX - speed;
+                    break;
+            }
         }
     }
 
 
-    @Override
-    public void checkDrop() {
 
-        int i = new Random().nextInt(3)+1;
-        switch (i){
-            case 1: dropItem(new Coin(gp));
-            break;
-            case 2: dropItem(new Potion_Orange(gp));
-                break;
-            case 3: dropItem(new Heal());
-                break;
-        }
+
     }
-}

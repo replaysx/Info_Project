@@ -4,6 +4,8 @@ package entity;
 import Main.GamePanel;
 import Main.KeyHandler;
 import object.*;
+import object.Shields.Shield_Wood;
+import object.Sword.Sword_Wood;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 
 
 public class Player extends Entity{
+
     GamePanel gp;
     KeyHandler keyH;
     public final int screenY;
@@ -32,6 +35,7 @@ public int realjumpspeed;
     public double jumpspeed;
     double gravityspeed;
     public boolean moving = false;
+    public boolean atShop = false;
     public int idleCounter=0;
     public int idleNum = 0;
 
@@ -54,13 +58,13 @@ public int realjumpspeed;
     }
 public void setDefaultValues(){
 
-        worldX = 1000;
-        worldY = 0;
+        worldX = 15*gp.tileSize;
+        worldY = 9*gp.tileSize;
         speed = 4;
         direction = "right";
         gravityspeed = 0.5;
         jumpspeed = 0;
-        maxLife = 6;
+        maxLife = 10;
         life = maxLife;
         imageLeft = new BufferedImage[8];
         imageRight = new BufferedImage[8];
@@ -75,10 +79,10 @@ public void setDefaultValues(){
         getPlayerImage();
         level = 1;
         strength =1;
-        coin = 0;
+        coin = 1000;
 
         currentWeapon = new Sword_Wood(gp);
-        currentShield = new Shield(gp);
+        currentShield = new Shield_Wood(gp);
         attack = getAttack();
         defense = getDefense();
 
@@ -95,16 +99,20 @@ public void selectItem(){
                 attack = getAttack();
             }
             if (selectedItem.type == currentShield.type_shield){
+                inventory.remove(itemIndex);
+                inventory.add(currentShield);
                 currentShield = selectedItem;
                 defense = getDefense();
             }
             if (selectedItem.type == currentShield.type_consumable){
                 if (gp.player.life != 0){
                     selectedItem.use();
+                    if (selectedItem.name != "Key"){
                     if (selectedItem.amount > 1 ){
                         selectedItem.amount --;
                     }else{
                         inventory.remove(itemIndex);}
+                }
                 }
             }
 
@@ -214,7 +222,7 @@ public void update() {
         if (attacking == true){
 
             attacking();
-        }else {damage =1;}
+        }
     idleCounter++;
     if (idleCounter > 4) {
         if (idleNum == 5){
@@ -280,7 +288,6 @@ else {
         gp.cChecker.checkTile(this);
         objIndex = gp.cChecker.checkObject(this,true);
         pickUp(objIndex);
-        gp.eHandler.checkEvent();
         if (collisionon == false){
             switch (direction){
                 case"right":
@@ -294,7 +301,7 @@ else {
     }else{
         moving = false;}
 
-if (life<=0){
+if (life<=0 || worldY+gp.tileSize+gp.screenHeight/2> gp.tileSize*gp.maxWorldRow ){
     gp.gameState = gp.gameOverState;
 }
 
@@ -368,9 +375,15 @@ public void attacking(){
 
 public void damageMonster(int i){
        if (i!=999){
+           if (animationNum==3){
            damage = attack;
            gp.npc[i].life -= damage;
-           damage =0;
+           attack=0;
+           }else {
+               attack= getAttack();
+           }
+
+
 
            if (gp.npc[i].life <=0){
                gp.npc[i].checkDrop();
@@ -381,33 +394,17 @@ public void damageMonster(int i){
 }
 
 public void pickUp(int index){
-     if (index!=999)  {
-         String objectName = gp.obj[index].name;
-
-         switch (objectName) {
-             case "Key":
-                 gp.playSE(1);
-                 canObtainItem(gp.obj[index]);
-                 gp.obj[index] = null;
-
-                 break;
-             case "LavaPit":
-                 if (invincible == false){
-                     life = life-1;
-                     invincible = true;
-                 }
-                 break;
-             case "OrangeJuice", "DefaultSword":
-                 canObtainItem(gp.obj[index]);
-                 gp.obj[index] = null;
-                 break;
-             case "Coin":
-                 gp.obj[index].use();
-                 gp.obj[index]=null;
-                 break;
-
-
+     if (index!=999) {
+         int objectType = gp.obj[index].type;
+         if (objectType == 0 || objectType == 1 || objectType == 2) {
+             canObtainItem(gp.obj[index]);
+             gp.obj[index] = null;
          }
+         if (objectType == 3) {
+             gp.obj[index].use();
+             gp.obj[index] = null;
+         }
+
      }
 }
 public void draw(Graphics2D g2){
@@ -416,7 +413,7 @@ public void draw(Graphics2D g2){
 
     switch(direction){
 
-        case "right": if ((isgrounded==false  && gravityspeed > 0.6) || keyH.jump == true){
+        case "right": if ((isgrounded==false  && gravityspeed >0.55) || keyH.jump == true){
             image = jumpRight[1];
 
 
@@ -438,9 +435,9 @@ public void draw(Graphics2D g2){
 
             break;
         case "left":
-            if ((isgrounded==false  && gravityspeed > 0.6) || keyH.jump == true){
+            if ((isgrounded==false  && gravityspeed >0.55) || keyH.jump == true){
 
-                image = jumpRight[1];
+                image = jumpLeft[1];
 
 
             }else if (guard==true) {

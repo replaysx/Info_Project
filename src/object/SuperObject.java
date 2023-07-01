@@ -22,9 +22,9 @@ public class SuperObject {
     public int attackWidth;
     public int attackHeight;
     public Color rarity;
-    public String rarityType;
     public boolean chestIsOpening=false;
     public boolean chestIsClosing=false;
+    public boolean chestIsAlreadyOpen = false;
     public boolean stackable = false;
     public int amount = 1;
     public String description = "";

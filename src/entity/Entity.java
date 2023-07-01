@@ -1,36 +1,41 @@
 package entity;
 
 import Main.GamePanel;
-import object.SuperObject;
+import object.*;
+import object.Shields.Shield;
+import object.Shields.Shield_Epic;
+import object.Shields.Shield_Legendary;
+import object.Shields.Shield_Mystic;
+import object.Sword.Sword_Legendary;
+import object.Sword.Sword_Mystic;
+import object.Sword.Weapon;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 public class Entity {
     GamePanel gp;
-    public int worldX,worldY;
-    public int speed;
-    public BufferedImage[] imageRight,imageLeft, jumpRight,jumpLeft,attackRight,attackLeft,shieldRight,shieldLeft,idleRight,idleLeft;
     public Projectile projectile;
-    public boolean alive = true;
 
-    public Rectangle attackArea = new Rectangle(0,0,0,0);
-
-    public String direction ;
-    public int spriteCounter = 0;
-    public int spriteNum = 1;
-    public Rectangle solidArea = new Rectangle(5,5,50,100);
-    public boolean collisionon = false;
-    public boolean isgrounded = false;
-    public int solidAreaDefaultX,solidAreaDefaultY;
-    public String name;
+    // Images
+    public BufferedImage[] imageRight,imageLeft, jumpRight,jumpLeft,attackRight,attackLeft,shieldRight,shieldLeft,idleRight,idleLeft;
     public BufferedImage image;
 
+
+
+    //Solid Area,Attack Area von Entity
+    public Rectangle solidArea = new Rectangle(5,5,50,60);
+    public int solidAreaDefaultX,solidAreaDefaultY;
+    public Rectangle attackArea = new Rectangle(0,0,0,0);
+
+
+    //Werte von Entity
+    public int worldX,worldY;
+    public String direction ;
+    public int speed;
+    public String name;
     public int type;
-    boolean attacking = false;
-    public int animationCounter = 0;
-    public int animationNum = 1;
-    public int shotAvailableCounter = 0;
     public int strength;
     public int attack;
     public int defense;
@@ -40,7 +45,22 @@ public class Entity {
     public int life;
     public int npcWidth;
     public int npcHeight;
-    public int actionLockCounter;
+
+
+    //Zustände von Entity
+    boolean attacking = false;
+    public boolean collisionon = false;
+    public boolean isgrounded = false;
+    public boolean alive = true;
+
+
+    //Counter,etc. für Animationen;
+    public int animationCounter = 0;
+    public int animationNum = 1;
+    public int shotAvailableCounter = 0;
+    public int spriteCounter = 0;
+    public int spriteNum = 1;
+
     public Entity(GamePanel gp){
         this.gp = gp;
     }
@@ -49,52 +69,22 @@ public class Entity {
     }
 
     public void update(){
+        // updated Entity in seperaten Methode
         setAction();
+
+
+        //überprüft Kollision mit anderen Entity,MapTiles
         collisionon = false;
        gp.cChecker.checkTile(this);
         gp.cChecker.checkObject(this,false);
       boolean contactPlayer = gp.cChecker.checkPlayer(this);
-      if (attacking==true){
-          animationCounter ++;
-          if (animationCounter > 4){
-              if (animationNum == 17){
-                  attacking = false;
-                  animationNum =0;
-
-              }animationNum ++;
-              animationCounter = 0;
-          }
 
 
-      }
 
-
-      if (this.type == 1 && contactPlayer == true&&attacking==true){
+      if (this.type == 1 && contactPlayer == true&&attacking==true&&animationNum==8){
           damagePlayer(attack);
       }
-
-        spriteCounter++;
-        if (spriteCounter > 5) {
-            if (spriteNum == 13){
-                spriteNum = 0;
-            }
-            spriteNum ++;
-            spriteCounter = 0;
-
-        }
-
-
-        if (collisionon == false){
-            switch (direction){
-                case"right":
-                    worldX = worldX + speed;
-                    break;
-                case"left":
-                    worldX = worldX - speed;
-                    break;
-            }
-        }
-        if (shotAvailableCounter<30){
+        if (shotAvailableCounter<300){
             shotAvailableCounter++;
         }
 
@@ -113,6 +103,7 @@ public class Entity {
     }
     public void draw (Graphics2D g2) {
         BufferedImage image = null;
+        // berechnet wo ein gegenstand gezeichnet werden muss
         int screenX = worldX - gp.player.worldX + gp.player.screenX;
         int screenY = worldY - gp.player.worldY + gp.player.screenY;
 
@@ -143,6 +134,7 @@ public class Entity {
                 break;
         }
 
+       // erstellt eine HP-Bar über Monster;
         if (type == 1) {
             double oneScale = (double) gp.tileSize / maxLife;
             double hpBar = oneScale * life;
@@ -154,13 +146,46 @@ public class Entity {
         g2.drawImage(image, screenX, screenY, npcWidth, npcHeight, null);
 
     }
-    public void checkDrop(){}
+    public void checkDrop(){
+        int randomItem = new Random().nextInt(100)+1;
+        if (randomItem <=2){
+            dropItem(new Shield_Mystic(gp));
+        }
+        if (randomItem <=4 && randomItem>2){
+            dropItem(new Sword_Mystic(gp));
+        }
+        if (randomItem <=8 && randomItem>4){
+            dropItem(new Sword_Legendary(gp));
+        }
+        if (randomItem <=12 && randomItem>8){
+            dropItem(new Shield_Legendary(gp));
+        }
+        if (randomItem <=20 && randomItem>12){
+            dropItem(new Shield_Epic(gp));
+        }
+        if (randomItem <=42 && randomItem>20){
+            dropItem(new Weapon(gp));
+        }
+        if (randomItem <=54 && randomItem>42){
+            dropItem(new Shield(gp));
+        }
+        if (randomItem <=74 && randomItem>54){
+            dropItem(new Potion_Orange(gp));
+        }
+        if (randomItem <=80 && randomItem>74){
+            dropItem(new Potion_Blue(gp));
+        }
+        if (randomItem>100){
+            dropItem(new Coin(gp));
+        }
+
+    }
     public void dropItem(SuperObject droppedIem){
         for (int i = 0;i<gp.obj.length;i++){
             if (gp.obj[i]==null){
                 gp.obj[i] = droppedIem;
                 gp.obj[i].worldX = worldX;
-                gp.obj[i].worldY = worldY;
+                gp.obj[i].worldY = worldY+30;
                 break;
 
             }

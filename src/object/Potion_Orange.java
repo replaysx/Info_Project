@@ -14,7 +14,7 @@ public class Potion_Orange extends SuperObject{
 
         this.gp = gp;
         name = "Healing Potion";
-        coinValue = 5;
+        coinValue = 3;
         stackable = true;
         rarity = common;
 
@@ -26,7 +26,7 @@ public class Potion_Orange extends SuperObject{
         catch (IOException e){
             e.printStackTrace();
         }
-        description = "["+name+"] \n +25% speed \n +25% attack";
+        description = "["+name+"] \n 20% Heal";
         type = type_consumable;
     }
     public void use(){

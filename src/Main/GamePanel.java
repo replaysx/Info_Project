@@ -32,11 +32,10 @@ public class GamePanel extends JPanel implements Runnable{
     public AssetSetter aSet = new AssetSetter(this);
     public LevelBar levelbar = new LevelBar(this);
     public UI ui = new UI(this);
-    public EventHandler eHandler = new EventHandler(this);
 
     Sound sound = new Sound();
     public Player player = new Player(this,keyH);
-    public SuperObject obj[] = new SuperObject[20];
+    public SuperObject obj[] = new SuperObject[26];
     public Entity npc[] = new Entity[10];
 
     //GAME STATE
@@ -145,6 +144,11 @@ public class GamePanel extends JPanel implements Runnable{
                 obj[i].update();
             }
         }
+        for (int i = 0; i < projectileList.size(); i++) {
+            if (projectileList.get(i).alive == true) {
+                projectileList.get(i).update();
+            }
+        }
 
 
 
@@ -168,6 +172,11 @@ public class GamePanel extends JPanel implements Runnable{
             for (int i = 0; i < npc.length; i++) {
                 if (npc[i] != null) {
                     npc[i].draw(g2);
+                }
+            }
+            for (int i = 0; i < projectileList.size(); i++) {
+                if (projectileList.get(i).alive == true) {
+                    projectileList.get(i).draw(g2);
                 }
             }
             player.draw(g2);

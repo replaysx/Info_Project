@@ -11,78 +11,78 @@ import java.io.InputStreamReader;
 
 public class TileManager {
     GamePanel gp;
-     public Tile[] tile;
-     public int mapTileNum[][];
-     public String level;
+    public Tile[] tile;
+    public int mapTileNum[][];
+    public String level;
 
 
 
 
 
-     public TileManager(GamePanel gp){
-         this.gp = gp;
+    public TileManager(GamePanel gp){
+        this.gp = gp;
 
-         tile = new Tile[20];
+        tile = new Tile[20];
 
-         mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
+        mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
 
-     }
+    }
 
-     public void loadMap(){
-         switch (gp.level){
-             case 1: level = "/Map/MapDemo.txt";
-             break;
-             case 2: level = "/Map/World2.txt";
-                 break;
-             case 3: level = "/Map/World3.txt";
-                 break;
-         }
-         try {
-             InputStream is = getClass().getResourceAsStream(level);
-             BufferedReader br = new BufferedReader(new InputStreamReader(is));
+    public void loadMap(){
+        switch (gp.level){
+            case 1: level = "/Map/MapDemo.txt";
+                break;
+            case 2: level = "/Map/World2.txt";
+                break;
+            case 3: level = "/Map/World3.txt";
+                break;
+        }
+        try {
+            InputStream is = getClass().getResourceAsStream(level);
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
-             int col = 0;
-             int row = 0;
-             while (col<gp.maxWorldCol && row<gp.maxWorldRow){
-                 String line = br.readLine();
-                 while (col<gp.maxWorldCol){
-                     String numbers[] = line.split(" ");
-                     int num = Integer.parseInt(numbers[col]);
-                     mapTileNum[col][row]=num;
-                     col++;
-                 }
-                 if (col == gp.maxWorldCol){
-                     col=0;
-                     row++;
-                 }
-
-
-             }
-             br.close();
+            int col = 0;
+            int row = 0;
+            while (col<gp.maxWorldCol && row<gp.maxWorldRow){
+                String line = br.readLine();
+                while (col<gp.maxWorldCol){
+                    String numbers[] = line.split(" ");
+                    int num = Integer.parseInt(numbers[col]);
+                    mapTileNum[col][row]=num;
+                    col++;
+                }
+                if (col == gp.maxWorldCol){
+                    col=0;
+                    row++;
+                }
 
 
-         } catch (Exception e) {
+            }
+            br.close();
 
-         }
-     }
 
-     public void getTileImage(){
-         try {
+        } catch (Exception e) {
 
-             tile[0]= new Tile();
-             tile[0].image = ImageIO.read(getClass().getResourceAsStream("/Tiles/pixil-frame-0(2).png"));
-             tile[0].collision = true;
+        }
+    }
 
-             tile[1]= new Tile();
-             tile[1].image = ImageIO.read(getClass().getResourceAsStream("/Tiles/pixil-frame-0(3).png"));
-             tile[1].collision = true;
+    public void getTileImage(){
+        try {
 
-             tile[2]= new Tile();
-             tile[2].image = ImageIO.read(getClass().getResourceAsStream("/Tiles/pixil-frame-0(4).png"));
-             tile[2].collision = true;
+            tile[0]= new Tile();
+            tile[0].image = ImageIO.read(getClass().getResourceAsStream("/MapTiles/pixil-frame-0 20.png"));
+            tile[0].collision = true;
 
-             tile[3]= new Tile();
-             tile[3].image = ImageIO.read(getClass().getResourceAsStream("/Tiles/pixil-frame-0(6).png"));
+            tile[1]= new Tile();
+            tile[1].image = ImageIO.read(getClass().getResourceAsStream("/MapTiles/pixil-frame-0 11.png"));
+            tile[1].collision = true;
+
+            tile[2]= new Tile();
+            tile[2].image = ImageIO.read(getClass().getResourceAsStream("/MapTiles/pixil-frame-0 17.png"));
+            tile[2].collision = true;
+
+            tile[3]= new Tile();
+            tile[3].image = ImageIO.read(getClass().getResourceAsStream("/Tiles/pixil-frame-0(6).png"));
                  /*
                           //Neuen Tiles eingefügt
              tile[0]= new Tile();
@@ -130,34 +130,34 @@ public class TileManager {
              tile[16].collision = true;
 
          */
-         } catch (IOException e) {
-             e.printStackTrace();
-         }
-     }
-     public void draw(Graphics2D g2){
-         int worldCol=0;
-         int worldRow=0;
-         while (worldCol<gp.maxWorldCol && worldRow<gp.maxWorldRow){
-             int tileNum = mapTileNum[worldCol][worldRow];
-             int worldX = worldCol * gp.tileSize;
-             int worldY = worldRow * gp.tileSize;
-             int screenX = worldX - gp.player.worldX + gp.player.screenX;
-             int screenY = worldY - gp.player.worldY + gp.player.screenY;
-             g2.drawImage(tile[tileNum].image,screenX,screenY,gp.tileSize, gp.tileSize, null);
-             worldCol++;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void draw(Graphics2D g2){
+        int worldCol=0;
+        int worldRow=0;
+        while (worldCol<gp.maxWorldCol && worldRow<gp.maxWorldRow){
+            int tileNum = mapTileNum[worldCol][worldRow];
+            int worldX = worldCol * gp.tileSize;
+            int worldY = worldRow * gp.tileSize;
+            int screenX = worldX - gp.player.worldX + gp.player.screenX;
+            int screenY = worldY - gp.player.worldY + gp.player.screenY;
+            g2.drawImage(tile[tileNum].image,screenX,screenY,gp.tileSize, gp.tileSize, null);
+            worldCol++;
 
-             if (worldCol == gp.maxWorldCol){
-                 worldCol=0;
-                 worldRow++;
+            if (worldCol == gp.maxWorldCol){
+                worldCol=0;
+                worldRow++;
 
-             }
-
-
-         }
+            }
 
 
+        }
 
-     }
+
+
+    }
     public void update(){
 
 

@@ -2,13 +2,18 @@ package entity;
 
 import Main.GamePanel;
 import object.*;
+import object.Shields.Shield;
+import object.Shields.Shield_Epic;
+import object.Shields.Shield_Legendary;
+import object.Shields.Shield_Mystic;
+import object.Sword.Sword_Legendary;
+import object.Sword.Sword_Mystic;
+import object.Sword.Weapon;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Random;
 
 public class Shop extends SuperObject {
 
@@ -59,9 +64,13 @@ public class Shop extends SuperObject {
         inventory.add(new Shield(gp));
         inventory.add(new Weapon(gp));
         inventory.add(new Potion_Orange(gp));
+        inventory.add(new Potion_Blue(gp));
+        inventory.add(new Sword_Legendary(gp));
+        inventory.add(new Sword_Mystic(gp));
+        inventory.add(new Shield_Epic(gp));
+        inventory.add(new Shield_Mystic(gp));
+        inventory.add(new Shield_Legendary(gp));
         inventory.add(new Key());
-
-
     }
     public void buyItem(){
         int itemIndex = gp.ui.getItemIndex();
@@ -70,7 +79,8 @@ public class Shop extends SuperObject {
 
                 if (selectedItem.coinValue <= gp.player.coin) {
                     if (gp.player.canObtainItem(selectedItem)==true){
-                    inventory.remove(itemIndex);
+                        if (selectedItem.name !="Key"){
+                    inventory.remove(itemIndex);}
                      gp.player.coin -= selectedItem.coinValue;
                      }else {
                    gp.ui.ErrorText = "Inventory is full";
