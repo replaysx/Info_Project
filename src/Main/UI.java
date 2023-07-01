@@ -76,6 +76,7 @@ public class UI {
         //Pause State
         if (gp.gameState == gp.pauseState){
             drawPauseScreen();
+
         }
         if (gp.gameState == gp.levelState){
             drawLevelScreen();
@@ -84,6 +85,7 @@ public class UI {
             drawCharacterScreen();
             drawInventory(true);
         }
+        /*
         if (gp.gameState == gp.gameOverState){
             drawGameOverScreen();
         }
@@ -101,6 +103,7 @@ public class UI {
                 drawErrorScreen();
             }
         }
+         */
 
 
     }
