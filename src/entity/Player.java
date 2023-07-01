@@ -409,7 +409,9 @@ public void pickUp(int index){
                  gp.obj[index]=null;
                  break;
 
-
+             case "Heart":
+                 life = maxLife;
+                 playSE(6);
 
          }
      }

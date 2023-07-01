@@ -51,6 +51,8 @@ public class GamePanel extends JPanel implements Runnable{
 
     public final int levelState = 3;
     public int tradeState = 5;
+
+    public final int optionsState = 4;
     public final int gameOverState=6;
     public final int chestState = 7;
     public ArrayList<Entity> projectileList = new ArrayList<>();

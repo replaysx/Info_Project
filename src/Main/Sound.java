@@ -6,7 +6,7 @@ import java.net.URL;
 
 public class Sound {
     Clip clip;
-    URL[] soundURL = new URL[5];
+    URL[] soundURL = new URL[6];
 
     public Sound(){
         soundURL[0] = getClass().getResource("/Sound/Continue-Theme-_Full_.wav");
@@ -14,6 +14,7 @@ public class Sound {
         soundURL[2] = getClass().getResource("/Sound/random-silly-chip-song.wav");
         soundURL[3] = getClass().getResource("/Sound/mixkit-keys-moving-1558.wav");
         soundURL[4] = getClass().getResource("/Sound/step-skeleton-47785.wav");
+        soundURL[5] = getClass().getResource("/Sound/health-pickup-6860.wav");
     }
 
     public void setFile (int i){

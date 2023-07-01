@@ -74,6 +74,9 @@ public class KeyHandler implements KeyListener {
             gp.player.guard = true;
         }
 
+
+
+
         if(code == KeyEvent.VK_I){
 
 if (gp.gameState == gp.playState)
@@ -83,6 +86,9 @@ else {
 }
 
         }
+
+       
+
         if(code == KeyEvent.VK_F){
             enterPressed = true;
 
@@ -281,4 +287,6 @@ else {
 
 
     }
+
+
 }
