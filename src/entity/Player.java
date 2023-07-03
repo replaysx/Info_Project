@@ -33,7 +33,7 @@ public class Player extends Entity{
     public int shieldNum;
 public int realjumpspeed;
     public double jumpspeed;
-    double gravityspeed;
+    public double gravityspeed;
     public boolean moving = false;
     public boolean atShop = false;
     public int idleCounter=0;
@@ -259,6 +259,8 @@ else {
     }
     else {jumpspeed = 0;}
 }
+
+
 
 
     if (keyH.leftPressed || keyH.rightPressed ) {

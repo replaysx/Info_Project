@@ -14,7 +14,7 @@ public class LevelBar {
     }
     public void update(){
 rectanglex = gp.player.worldX / 48;
-if (rectanglex >= 320){
+if (rectanglex >= 250){
     gp.ui.gameFinished = true;
 }
     }

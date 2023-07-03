@@ -27,6 +27,7 @@ public class GamePanel extends JPanel implements Runnable{
     int FPS = 60;
     public TileManager tileM = new TileManager(this);
    public KeyHandler keyH = new KeyHandler(this);
+   public boolean playMusic = false;
     Thread gameThread;
     public CollisionChecker cChecker =new CollisionChecker(this);
     public AssetSetter aSet = new AssetSetter(this);
@@ -50,8 +51,6 @@ public class GamePanel extends JPanel implements Runnable{
 
     public final int levelState = 3;
     public int tradeState = 5;
-
-    public final int optionsState = 4;
     public final int gameOverState=6;
     public final int chestState = 7;
     public ArrayList<Entity> projectileList = new ArrayList<>();
@@ -72,6 +71,7 @@ public class GamePanel extends JPanel implements Runnable{
         aSet.setNPC();
         gameState=titleState;
         playMusic(2);
+        playMusic = true;
 
 
     }
@@ -126,6 +126,10 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void update(){
         if (gameState == playState){
+            if (playMusic==false){
+                playMusic(2);
+                playMusic = true;
+            }
 
             player.update();
             tileM.update();
@@ -140,6 +144,7 @@ public class GamePanel extends JPanel implements Runnable{
         }
         if (gameState == pauseState) {
             stopMusic(2);
+            playMusic = false;
         }
 
         for (int i = 0; i < obj.length; i++) {

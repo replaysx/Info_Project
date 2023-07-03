@@ -175,7 +175,7 @@ public class Entity {
         if (randomItem <=80 && randomItem>74){
             dropItem(new Potion_Blue(gp));
         }
-        if (randomItem>100){
+        if (randomItem>80){
             dropItem(new Coin(gp));
         }
 
@@ -184,7 +184,7 @@ public class Entity {
         for (int i = 0;i<gp.obj.length;i++){
             if (gp.obj[i]==null){
                 gp.obj[i] = droppedIem;
-                gp.obj[i].worldX = worldX;
+                gp.obj[i].worldX = worldX+30;
                 gp.obj[i].worldY = worldY+30;
                 break;
 

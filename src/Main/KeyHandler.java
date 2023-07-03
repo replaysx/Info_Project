@@ -291,6 +291,7 @@ public class KeyHandler implements KeyListener {
                         gp.gameState= gp.playState;
                         gp.player.worldX=previousWorldX;
                         gp.player.worldY = getPreviousWorldY;
+                        gp.player.atShop = false;
 
                     }
                 }

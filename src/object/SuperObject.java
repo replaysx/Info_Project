@@ -40,6 +40,8 @@ public class SuperObject {
 
 
     //verschiedene type für unterschiedliche Items
+
+
     public int type;
     public final int type_weapon = 0;
     public final int type_shield = 1;
