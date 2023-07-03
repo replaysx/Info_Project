@@ -85,7 +85,7 @@ public class UI {
             drawCharacterScreen();
             drawInventory(true);
         }
-        /*
+
         if (gp.gameState == gp.gameOverState){
             drawGameOverScreen();
         }
@@ -103,7 +103,7 @@ public class UI {
                 drawErrorScreen();
             }
         }
-         */
+
 
 
     }

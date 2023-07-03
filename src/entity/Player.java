@@ -396,11 +396,11 @@ public void damageMonster(int i){
 public void pickUp(int index){
      if (index!=999) {
          int objectType = gp.obj[index].type;
-         if (objectType == 0 || objectType == 1 || objectType == 2) {
-             canObtainItem(gp.obj[index]);
+         if ((objectType == 0 || objectType == 1 || objectType == 2)&& canObtainItem(gp.obj[index])==true) {
              gp.obj[index] = null;
          }
          if (objectType == 3) {
+             gp.playSE(1);
              gp.obj[index].use();
              gp.obj[index] = null;
          }
